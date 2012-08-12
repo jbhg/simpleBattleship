@@ -1,0 +1,93 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package battleship;
+
+/**
+ *
+ * @author joelgreenberg
+ */
+public class SteelSubmarine extends Ship {
+
+    private boolean hitonce;
+    private BSCoordinate firsthit;
+    private int steelsub_hits;
+
+    public SteelSubmarine(Board board, int x_start, int y_start, int x_end, int y_end, int initialstatus) {
+        super(board, 4, x_start, y_start, x_end, y_end, initialstatus, "Submarine");
+        sunksubinit();
+    }
+
+    public SteelSubmarine(Board board, int x_start, int y_start, int x_end, int y_end) {
+        super(board, 4, x_start, y_start, x_end, y_end, "Submarine");
+        sunksubinit();
+    }
+
+    public SteelSubmarine(Board board, int x_start, int y_start, int orientation) {
+        super(board, 4, x_start, y_start, orientation, "Submarine");
+        sunksubinit();
+    }
+
+    private void sunksubinit() {
+        hitonce = false;
+        firsthit = null;
+        steelsub_hits = 0;
+    }
+
+    @Override
+    public int shoot(int x, int y) {
+        for (int i = 0; i < squares.size(); i++) {
+            if (squares.get(i).x() == x && squares.get(i).y() == y) {
+                squares.get(i).setStatus(BSSquare.S_MISS);
+            }
+        }
+        GPSboard.updateBoardSquare(x, y, BSSquare.S_MISS);
+        if (!hitonce) {
+            firsthit = new BSCoordinate(x, y);
+            hitonce = true;
+            steelsub_hits++;
+            return Board.B_MISS;
+        } else {
+            if (steelsub_hits == 1) {
+
+                for (int i = 0; i < squares.size(); i++) {
+                    if (squares.get(i).x() == firsthit.x() && squares.get(i).y() == firsthit.y()) {
+                        squares.get(i).setStatus(BSSquare.S_HIT_SHIP);
+                    }
+                }
+                GPSboard.updateBoardSquare(firsthit.x(), firsthit.y(), BSSquare.S_HIT_SHIP);
+                GPSboard.hits++;
+            }
+
+            for (int i = 0; i < squares.size(); i++) {
+                if (squares.get(i).x() == x && squares.get(i).y() == y) {
+                    squares.get(i).setStatus(BSSquare.S_HIT_SHIP);
+                }
+            }
+            GPSboard.updateBoardSquare(x, y, BSSquare.S_HIT_SHIP);
+            GPSboard.hits++;
+            steelsub_hits++;
+
+            if (isSunk()) {
+                Debug.print("\n\n----\tAbout to print a ship deemed as sunk.\n" + this);
+                //We need to make the ship PRINT as if it's sunk:
+                for (int i = 0; i < drawShip().size(); i++) {
+//                    Debug.print("Coords of sunk ship:" + board_ships.get(hitshipindex).drawShip().get(i).x() + "," + board_ships.get(hitshipindex).drawShip().get(i).y() + ":" + board_ships.get(hitshipindex).drawShip().get(i).status());
+
+//                    board_ships.get(hitshipindex).board_squares.get(i).updateBoardSquare(BSSquare.S_HIT_AND_SUNK_SHIP);
+                    drawShip().get(i).setStatus(BSSquare.S_HIT_AND_SUNK_SHIP);
+                    GPSboard.updateBoardSquare(drawShip().get(i).x(), drawShip().get(i).y(), BSSquare.S_HIT_AND_SUNK_SHIP);
+//                    Debug.println("\tCoords of sunk ship:" + board_ships.get(hitshipindex).drawShip().get(i).x() + "," + board_ships.get(hitshipindex).drawShip().get(i).y() + ":" + board_ships.get(hitshipindex).drawShip().get(i).status());
+//                    Debug.println("\t\t" + getStringFromIntStatus(board_ships.get(hitshipindex).board_squares.get(i).status()));
+                }
+
+                return Board.B_HIT_SUNK;
+            } else {
+                return Board.B_HIT;
+            }
+        }
+    }
+}
+
+

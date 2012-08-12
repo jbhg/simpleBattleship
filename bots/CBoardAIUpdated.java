@@ -1,4 +1,6 @@
-package battleship;
+package bots;
+
+import battleship.BSCoordinate;
 
 public class CBoardAIUpdated implements BSAI {
 

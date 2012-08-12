@@ -2,7 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package battleship;
+package ships;
+
+import battleship.BSCoordinate;
+import battleship.BSSquare;
+import battleship.Board;
+import battleship.Debug;
 
 /**
  *
@@ -37,9 +42,9 @@ public class SteelSubmarine extends Ship {
 
     @Override
     public int shoot(int x, int y) {
-        for (int i = 0; i < squares.size(); i++) {
-            if (squares.get(i).x() == x && squares.get(i).y() == y) {
-                squares.get(i).setStatus(BSSquare.S_MISS);
+        for (int i = 0; i < getSquares().size(); i++) {
+            if (getSquares().get(i).x() == x && getSquares().get(i).y() == y) {
+                getSquares().get(i).setStatus(BSSquare.S_MISS);
             }
         }
         GPSboard.updateBoardSquare(x, y, BSSquare.S_MISS);
@@ -51,22 +56,22 @@ public class SteelSubmarine extends Ship {
         } else {
             if (steelsub_hits == 1) {
 
-                for (int i = 0; i < squares.size(); i++) {
-                    if (squares.get(i).x() == firsthit.x() && squares.get(i).y() == firsthit.y()) {
-                        squares.get(i).setStatus(BSSquare.S_HIT_SHIP);
+                for (int i = 0; i < getSquares().size(); i++) {
+                    if (getSquares().get(i).x() == firsthit.x() && getSquares().get(i).y() == firsthit.y()) {
+                        getSquares().get(i).setStatus(BSSquare.S_HIT_SHIP);
                     }
                 }
                 GPSboard.updateBoardSquare(firsthit.x(), firsthit.y(), BSSquare.S_HIT_SHIP);
-                GPSboard.hits++;
+                GPSboard.increaseHitsByOne();
             }
 
-            for (int i = 0; i < squares.size(); i++) {
-                if (squares.get(i).x() == x && squares.get(i).y() == y) {
-                    squares.get(i).setStatus(BSSquare.S_HIT_SHIP);
+            for (int i = 0; i < getSquares().size(); i++) {
+                if (getSquares().get(i).x() == x && getSquares().get(i).y() == y) {
+                    getSquares().get(i).setStatus(BSSquare.S_HIT_SHIP);
                 }
             }
             GPSboard.updateBoardSquare(x, y, BSSquare.S_HIT_SHIP);
-            GPSboard.hits++;
+            GPSboard.increaseHitsByOne();
             steelsub_hits++;
 
             if (isSunk()) {

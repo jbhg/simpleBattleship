@@ -1,4 +1,6 @@
-package battleship;
+package ships;
+
+import battleship.Board;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

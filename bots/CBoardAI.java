@@ -2,9 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package battleship;
+package bots;
 
 import java.util.ArrayList;
+
+import battleship.BSCoordinate;
+import battleship.BSIO;
+import battleship.BSSquare;
+import battleship.Board;
+import battleship.Debug;
+import battleship.Destroyer;
+
+import ships.Battleship;
+import ships.Carrier;
+import ships.Cruiser;
+import ships.SteelSubmarine;
+import ships.Submarine;
 
 /**
  *
@@ -28,7 +41,8 @@ public class CBoardAI  implements BSAI {
     /*
      * Places BSCoordinates in the necessary ArrayList.
      */
-    public void initialize() {
+    @Override
+	public void initialize() {
         shooting_coordinates = new ArrayList<BSCoordinate>();
         place_ship_coordinates = new ArrayList<BSCoordinate>();
         coordinates_shot = new ArrayList<BSCoordinate>();
@@ -49,7 +63,8 @@ public class CBoardAI  implements BSAI {
      *
      * @return random coordinate
      */
-    public BSCoordinate nextshot() {
+    @Override
+	public BSCoordinate nextshot() {
         clearsunk();
         clearOutOfBounds();
         shots++;
@@ -248,11 +263,13 @@ public class CBoardAI  implements BSAI {
         }
     }
 
-    public int remaining_shooting_coordinates() {
+    @Override
+	public int remaining_shooting_coordinates() {
         return shooting_coordinates.size();
     }
 
-    public void placeships() {
+    @Override
+	public void placeships() {
         boolean shipplaced;
 
         board.placeship(new SteelSubmarine(board, 0, 0, 1));
@@ -293,11 +310,12 @@ public class CBoardAI  implements BSAI {
         }
 
 
-        board.explosive = nextshot();
-
+        board.setExplosive(nextshot());
+        
     }
 
-    public void setHit(BSCoordinate c) {
+    @Override
+	public void setHit(BSCoordinate c) {
         hit_list.add(c);
         place_ship_coordinates.add(new BSCoordinate(c.x(), c.y() - 1));
         place_ship_coordinates.add(new BSCoordinate(c.x(), c.y() + 1));
@@ -305,12 +323,13 @@ public class CBoardAI  implements BSAI {
         place_ship_coordinates.add(new BSCoordinate(c.x() - 1, c.y()));
     }
 
-    public void setSunk(BSCoordinate c) {
+    @Override
+	public void setSunk(BSCoordinate c) {
 
         int sunkCounter = 0;
 
         for (int i = 0; i < hit_list.size(); i++) {
-            if (oppboard.board_squares.get(hit_list.get(i)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
+            if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
                 Debug.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;
@@ -333,7 +352,7 @@ public class CBoardAI  implements BSAI {
         int sunkCounter = 0;
 
         for (int i = 0; i < hit_list.size(); i++) {
-            if (oppboard.board_squares.get(hit_list.get(i)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
+            if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
                 Debug.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;

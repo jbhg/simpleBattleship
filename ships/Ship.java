@@ -19,9 +19,13 @@
  * from "AquaWarMachine"; one could lay down mines in the opponent's water and
  * deploy them at the beginning of the game.
  */
-package battleship;
+package ships;
 
 import java.util.ArrayList;
+
+import battleship.BSSquare;
+import battleship.Board;
+import battleship.Debug;
 
 /**
  *
@@ -72,24 +76,24 @@ public abstract class Ship {
         Debug.println("SHIP: Coordinates in the constructor are: start: " + x_start + " " + y_start + "; end: " + x_end + " " + y_end);
 
         //Now we establish an array of board_squares over which the ship sits.
-        squares = new ArrayList<BSSquare>();
+        setSquares(new ArrayList<BSSquare>());
 
         //Instance 1: the change is in the x-coordinate.
         if (x_end - x_start != 0 && y_end - y_start == 0) {
             //Debug.println("Variance is in x-direction.");
             for (int i = 0; i < length; i++) {
                 //Debug.println("L1: We're about to encode the following into " + shipname + ": [" + (x_start + i) + "," + y_start + "]");
-                squares.add(new BSSquare(x_start + i, y_start, initialstatus));
+                getSquares().add(new BSSquare(x_start + i, y_start, initialstatus));
             }
         } //Instance 2: the change is in the y-coordinate.
         else if (x_end - x_start == 0 && y_end - y_start != 0) {
             //Debug.println("Variance is in y-direction.");
             for (int i = 0; i < length; i++) {
                 //Debug.println("L2: We're about to encode the following into " + shipname + ": [" + x_start + "," + (y_start + i) + "]");
-                squares.add(new BSSquare(x_start, y_start + i, initialstatus));
+                getSquares().add(new BSSquare(x_start, y_start + i, initialstatus));
             }
         } else {
-            squares = null;
+            setSquares(null);
         }
     }
 
@@ -101,7 +105,7 @@ public abstract class Ship {
      * @return
      */
     public ArrayList<BSSquare> drawShip() {
-        return squares;
+        return getSquares();
     }
 
     public static int orientationInt(String s) {
@@ -126,9 +130,9 @@ public abstract class Ship {
 
     public boolean overlap(Ship s) {
         for (int i = 0; i < s.drawShip().size(); i++) {
-            for (int j = 0; j < squares.size(); j++) {
+            for (int j = 0; j < getSquares().size(); j++) {
                 //Debug.println("2 pairs? : [" + i + ";" + j + "]:" + s.drawShip().get(i).x() + " " + s.drawShip().get(i).y() + " and " + board_squares.get(j).x() + " " + board_squares.get(j).y());
-                if (s.drawShip().get(i).x() == squares.get(j).x() && s.drawShip().get(i).y() == squares.get(j).y()) {
+                if (s.drawShip().get(i).x() == getSquares().get(j).x() && s.drawShip().get(i).y() == getSquares().get(j).y()) {
                     return true;
                 }
             }
@@ -159,15 +163,15 @@ public abstract class Ship {
     @Override
     public String toString() {
         String s = shipname + " (length " + length + ") has the following makeup: \n";
-        for (int i = 0; i < squares.size(); i++) {
-            s = s + "[" + squares.get(i).x() + "," + squares.get(i).y() + ": " + squares.get(i).status() + "/" + BSSquare.getStringFromSquare(squares.get(i).status()) + "]\n";
+        for (int i = 0; i < getSquares().size(); i++) {
+            s = s + "[" + getSquares().get(i).x() + "," + getSquares().get(i).y() + ": " + getSquares().get(i).status() + "/" + BSSquare.getStringFromSquare(getSquares().get(i).status()) + "]\n";
         }
         return s;
     }
 
     public boolean isSunk() {
         Debug.print("isSunk? Hits remaining: " + hitsRemaining());
-        for (BSSquare s : squares) {
+        for (BSSquare s : getSquares()) {
             if (s.status() != BSSquare.S_HIT_SHIP && s.status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                 return false;
             }
@@ -176,14 +180,14 @@ public abstract class Ship {
     }
 
         public int shoot(int x, int y) {
-            for (int i = 0; i < squares.size(); i++) {
-                if (squares.get(i).x() == x && squares.get(i).y() == y) {
-                    squares.get(i).setStatus(BSSquare.S_HIT_SHIP);
+            for (int i = 0; i < getSquares().size(); i++) {
+                if (getSquares().get(i).x() == x && getSquares().get(i).y() == y) {
+                    getSquares().get(i).setStatus(BSSquare.S_HIT_SHIP);
 
                 }
             }
             GPSboard.updateBoardSquare(x, y, BSSquare.S_HIT_SHIP);
-            GPSboard.hits++;
+            GPSboard.increaseHitsByOne();
 
             if (isSunk()) {
                 Debug.print("\n\n----\tAbout to print a ship deemed as sunk.\n" + this);
@@ -207,13 +211,27 @@ public abstract class Ship {
 
     public int hitsRemaining() {
         int hitsremaining = 0;
-        for (BSSquare s : squares) {
+        for (BSSquare s : getSquares()) {
             if (s.status() == BSSquare.S_LIVE_SHIP || s.status() == BSSquare.S_UNKNOWN) {
                 hitsremaining++;
             }
         }
         return hitsremaining;
     }
+
+	/**
+	 * @param squares the squares to set
+	 */
+	public void setSquares(ArrayList<BSSquare> squares) {
+		this.squares = squares;
+	}
+
+	/**
+	 * @return the squares
+	 */
+	public ArrayList<BSSquare> getSquares() {
+		return squares;
+	}
 }
 /*
  * @return one of the B_ - variables, based on a Board status.

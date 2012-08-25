@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package battleship;
+package logic;
 
 /**
  *
@@ -57,7 +57,8 @@ public class BSSquare {
         status = newstatus;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return "[" + x() + "," + y() + ": " + status() + "]";
     }
 

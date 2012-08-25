@@ -1,7 +1,9 @@
 /*
  * The BSCoordinate is a coordinate on the plane.
  */
-package battleship;
+package logic;
+
+import java.util.List;
 
 /**
  *
@@ -73,5 +75,14 @@ public class BSCoordinate {
         } else {
             return Math.abs(rhs.x() - x);
         }
+    }
+
+    /**
+     * @param coords 
+     * @pre coords is a list of colinear coordinates;
+     * @return
+     */
+    public static BSCoordinate getEmptyCoordinates(List<BSCoordinate> coords){
+    	return null;
     }
 }

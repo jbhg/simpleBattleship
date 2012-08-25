@@ -6,7 +6,7 @@
  * Game will represent an experimental, text-based interaction between the
  * user and the board.
  */
-package battleship;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +24,26 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import logic.BSCoordinate;
+import logic.BSSquare;
+
+import debug.BSIO;
+import debug.Debug;
+
+import boards.Board;
+import boards.CBoard;
+import boards.UBoard;
+import bots.BSAI;
+import bots.CBoardAIRecursive;
+
+import ships.Battleship;
+import ships.Carrier;
+import ships.Cruiser;
+import ships.Destroyer;
+import ships.Ship;
+import ships.SteelSubmarine;
+import ships.Submarine;
 
 /**
  *
@@ -192,7 +212,7 @@ public class GameGUI extends JFrame implements ActionListener {
         //Clear the computer board and prepare it for re-deployment.
         compboard.initialize();
         compboard_AI.initialize();
-        computer_placeships();
+        placeComputerShips();
 
         //Clear the user board and prepare it for re-deployment.
         userboard.initialize();
@@ -235,7 +255,8 @@ public class GameGUI extends JFrame implements ActionListener {
 //        compboard.beginGame();
 //        Debug.println("Game begun.");
 //    }
-    private void computer_placeships() {
+    
+    private void placeComputerShips() {
         compboard_AI.placeships();
     }
 
@@ -307,7 +328,7 @@ public class GameGUI extends JFrame implements ActionListener {
 
     private void placeexplosive() {
         if (userboard.setExplosive(getCoords()[0], getCoords()[1])) {
-            print("Don't tell your opponent--but the explosive is placed at " + userboard.explosive + ".");
+            print("Don't tell your opponent--but the explosive is placed at " + userboard.getExplosive() + ".");
             button_placeexplosive.setEnabled(false);
             if (ships_to_be_placed.size() == 0) {
                 startgame();
@@ -387,17 +408,17 @@ public class GameGUI extends JFrame implements ActionListener {
         button_shoot.setEnabled(true);
         button_DES.setEnabled(true);
 
-        if (userboard.sink(compboard.explosive)) {
+        if (userboard.sink(compboard.getExplosive())) {
             append("The computer's explosive sunk the user's ship! ");
         } else {
-            userboard.shoot(compboard.explosive);
+            userboard.shoot(compboard.getExplosive());
             append("The computer's explosive did nothing.");
         }
 
-        if (compboard.sink(userboard.explosive)) {
+        if (compboard.sink(userboard.getExplosive())) {
             append("The user's explosive sunk the computer's ship!");
         } else {
-            compboard.shoot(userboard.explosive);
+            compboard.shoot(userboard.getExplosive());
             append("The user's explosive did nothing.");
 
         }
@@ -497,15 +518,15 @@ public class GameGUI extends JFrame implements ActionListener {
 
         //We will randomly select ships from each board to shoot.
         for (int i = 0; i <
-                compboard.board_ships.size(); i++) {
-            if (!compboard.board_ships.get(i).isSunk()) {
+                compboard.getBoardShips().size(); i++) {
+            if (!compboard.getBoardShips().get(i).isSunk()) {
                 compcount++;
             }
 
         }
         for (int i = 0; i <
-                userboard.board_ships.size(); i++) {
-            if (!userboard.board_ships.get(i).isSunk()) {
+                userboard.getBoardShips().size(); i++) {
+            if (!userboard.getBoardShips().get(i).isSunk()) {
                 usercount++;
             }
 
@@ -520,15 +541,15 @@ public class GameGUI extends JFrame implements ActionListener {
             int compcount_sq = -1, usercount_sq = -1;
 
             for (int i = 0; i <
-                    compboard.board_ships.get(compship).length(); i++) {
-                if (compboard.board_ships.get(compship).squares.get(i).status() != BSSquare.S_HIT_SHIP && compboard.board_ships.get(compship).squares.get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                    compboard.getBoardShips().get(compship).length(); i++) {
+                if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                     compcount_sq++;
                 }
 
             }
             for (int i = 0; i <
-                    userboard.board_ships.get(usership).length(); i++) {
-                if (userboard.board_ships.get(usership).squares.get(i).status() != BSSquare.S_HIT_SHIP && userboard.board_ships.get(usership).squares.get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                    userboard.getBoardShips().get(usership).length(); i++) {
+                if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                     usercount_sq++;
                 }
 
@@ -542,22 +563,22 @@ public class GameGUI extends JFrame implements ActionListener {
                 //Now we have our squares selected. We need to find the coordinates.
                 int compcounter = -1, usercounter = -1;
                 for (int i = 0; i <
-                        compboard.board_ships.get(compship).length(); i++) {
-                    if (compboard.board_ships.get(compship).squares.get(i).status() != BSSquare.S_HIT_SHIP && compboard.board_ships.get(compship).squares.get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                        compboard.getBoardShips().get(compship).length(); i++) {
+                    if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                         compcounter++;
                         if (compcounter == compshot) {
-                            compboard.shoot(compboard.board_ships.get(compship).squares.get(i).x(), compboard.board_ships.get(compship).squares.get(i).y());
+                            compboard.shoot(compboard.getBoardShips().get(compship).getSquares().get(i).x(), compboard.getBoardShips().get(compship).getSquares().get(i).y());
                         }
 
                     }
                 }
                 for (int i = 0; i <
-                        userboard.board_ships.get(usership).length(); i++) {
-                    if (userboard.board_ships.get(usership).squares.get(i).status() != BSSquare.S_HIT_SHIP && userboard.board_ships.get(usership).squares.get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                        userboard.getBoardShips().get(usership).length(); i++) {
+                    if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                         usercounter++;
                         if (usercounter == usershot) {
-                            userboard.shoot(new BSCoordinate(userboard.board_ships.get(usership).squares.get(i).x(), userboard.board_ships.get(usership).squares.get(i).y()));
-                            compboard_AI.setHit(new BSCoordinate(userboard.board_ships.get(usership).squares.get(i).x(), userboard.board_ships.get(usership).squares.get(i).y()));
+                            userboard.shoot(new BSCoordinate(userboard.getBoardShips().get(usership).getSquares().get(i).x(), userboard.getBoardShips().get(usership).getSquares().get(i).y()));
+                            compboard_AI.setHit(new BSCoordinate(userboard.getBoardShips().get(usership).getSquares().get(i).x(), userboard.getBoardShips().get(usership).getSquares().get(i).y()));
 
                         }
 

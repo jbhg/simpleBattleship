@@ -5,17 +5,21 @@
 package bots;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import battleship.BSCoordinate;
-import battleship.BSIO;
-import battleship.BSSquare;
-import battleship.Board;
-import battleship.Debug;
-import battleship.Destroyer;
+import logic.BSCoordinate;
+import logic.BSSquare;
+
+import debug.BSIO;
+import debug.Debug;
+
+import boards.Board;
 
 import ships.Battleship;
 import ships.Carrier;
 import ships.Cruiser;
+import ships.Destroyer;
+import ships.Ship;
 import ships.SteelSubmarine;
 import ships.Submarine;
 
@@ -258,7 +262,14 @@ public class CBoardAIRecursive implements BSAI {
         }
     }
 
-    private int orientation(BSCoordinate a, BSCoordinate b) {
+    /**
+     * JBHG 8/11/2012: This should be made Static in the BSCoord class?
+     * @param a
+     * @param b
+     * @return
+     */
+    @SuppressWarnings("unused")
+	private int orientation(BSCoordinate a, BSCoordinate b) {
         if (a.equals(b)) {
             return ORIENTATION_SAME;
         } else if (Math.abs(a.x() - b.x()) == 1 && Math.abs(a.y() - b.y()) == 0) {
@@ -283,4 +294,16 @@ public class CBoardAIRecursive implements BSAI {
         Debug.println("shooting_coordinates: " + shooting_coordinates);
         Debug.println("----");
     }
+
+	@Override
+	public void placeships(List<Ship> ships) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSunk(List<BSCoordinate> coords) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -2,7 +2,7 @@
  * This is intended to be a low-fidelity keyboard inputter for use in debugging.
  *
  */
-package battleship;
+package debug;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -6,7 +6,16 @@
  * Game will represent an experimental, text-based interaction between the
  * user and the board.
  */
-package battleship;
+package logic;
+
+import debug.BSIO;
+import debug.Debug;
+import boards.Board;
+import boards.CBoard;
+import boards.UBoard;
+import ships.Battleship;
+import ships.Ship;
+import ships.Submarine;
 
 /**
  *

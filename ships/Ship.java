@@ -23,9 +23,11 @@ package ships;
 
 import java.util.ArrayList;
 
-import battleship.BSSquare;
-import battleship.Board;
-import battleship.Debug;
+import logic.BSSquare;
+
+import debug.Debug;
+
+import boards.Board;
 
 /**
  *

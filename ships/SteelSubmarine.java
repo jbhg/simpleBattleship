@@ -4,10 +4,10 @@
  */
 package ships;
 
-import battleship.BSCoordinate;
-import battleship.BSSquare;
-import battleship.Board;
-import battleship.Debug;
+import logic.BSCoordinate;
+import logic.BSSquare;
+import debug.Debug;
+import boards.Board;
 
 /**
  *

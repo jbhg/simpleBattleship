@@ -2,13 +2,20 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package battleship;
+package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
+
+import logic.BSCoordinate;
+import logic.BSSquare;
+
+import debug.Debug;
+
+import boards.Board;
 
 /**
  *
@@ -47,7 +54,7 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
 
             //Let's figure out what color to paint this guy. First, we test to see if:
             //  1. The board should be painted fairly; or if the square is NOT a live ship.
-            if (board.displayUndercoverShips || board.drawBoard().get(coord).status() != BSSquare.S_LIVE_SHIP) {
+            if (board.displayUndercoverShips() || board.drawBoard().get(coord).status() != BSSquare.S_LIVE_SHIP) {
                 g.setColor(squareColor(board.drawBoard().get(coord).status()));
             } else { //    2. In case we're supposed to conceal the locations of board_ships, we will do so.
                 //if (board.drawBoard().get(coord).status() == BSSquare.S_LIVE_SHIP) {
@@ -114,27 +121,32 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
     }
 
     //The following five methods are the implementations of MouseListener.
-    public void mouseClicked(MouseEvent event) {
+    @Override
+	public void mouseClicked(MouseEvent event) {
 
         int x = ((event.getPoint().x) - 1) / print_dimension - 1;
         int y = ((event.getPoint().y) - 1) / print_dimension - 1;
 
         if (x >= 0 && y >= 0 && x < board.x_dim && y < board.y_dim) {
             game.printCoords(x, y);
-            game.mouse_inputter(event, board.name);
+            game.mouse_inputter(event, board.getBoardName());
         }
     }
 
-    public void mouseEntered(MouseEvent e) {
+    @Override
+	public void mouseEntered(MouseEvent e) {
     }
 
-    public void mouseExited(MouseEvent e) {
+    @Override
+	public void mouseExited(MouseEvent e) {
     }
 
-    public void mousePressed(MouseEvent e) {
+    @Override
+	public void mousePressed(MouseEvent e) {
     }
 
-    public void mouseReleased(MouseEvent e) {
+    @Override
+	public void mouseReleased(MouseEvent e) {
     }
 }
 

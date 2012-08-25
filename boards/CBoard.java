@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package bots;
+package boards;
 
-import battleship.Board;
 
 /**
  *

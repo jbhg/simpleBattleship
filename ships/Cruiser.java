@@ -4,7 +4,7 @@
  */
 package ships;
 
-import battleship.Board;
+import boards.Board;
 
 /**
  *

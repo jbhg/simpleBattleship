@@ -2,10 +2,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package battleship;
+package boards;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import logic.BSCoordinate;
+import logic.BSSquare;
+
+import debug.Debug;
+
+
+import ships.Ship;
 
 /**
  *
@@ -25,6 +33,7 @@ public abstract class Board {
         this.name = name;
         initialize();
     }
+    public final int x_dim, y_dim;
     public static final int B_GAMELOST = 5,
             B_HIT = 6,
             B_MISS = 7,
@@ -33,12 +42,11 @@ public abstract class Board {
             B_HIT_SUNK = 55;
     protected int turns;
     protected String name;
-    protected ArrayList<Ship> board_ships;
-    protected HashMap<BSCoordinate, BSSquare> board_squares;
-    protected int x_dim, y_dim;
+	protected ArrayList<Ship> board_ships;
+	protected HashMap<BSCoordinate, BSSquare> board_squares;
     protected int misses, hits;
     protected boolean gameInProgress, displayUndercoverShips;
-    protected BSCoordinate explosive;
+	protected BSCoordinate explosive;
 
     public static String getStringFromIntStatus(int i) {
         switch (i) {
@@ -67,12 +75,12 @@ public abstract class Board {
      * This method sets the status of a square.
      */
 
-    protected boolean updateBoardSquare(int x, int y, int status) {
-        if (!board_squares.containsKey(new BSCoordinate(x, y))) {
+    public boolean updateBoardSquare(int x, int y, int status) {
+        if (!getBoardSquares().containsKey(new BSCoordinate(x, y))) {
             return false;
         } else {
-            board_squares.remove(new BSCoordinate(x, y));
-            board_squares.put(new BSCoordinate(x, y),
+            getBoardSquares().remove(new BSCoordinate(x, y));
+            getBoardSquares().put(new BSCoordinate(x, y),
                     new BSSquare(x, y, status));
             return true;
         }
@@ -80,16 +88,16 @@ public abstract class Board {
     }
 
     public void initialize() {
-        explosive = new BSCoordinate(-1, -1);
+        setExplosive(new BSCoordinate(-1, -1));
         hits = 0;
         misses = 0;
         turns = 0;
         gameInProgress = false;
         board_ships.clear();
-        board_squares.clear();
+        getBoardSquares().clear();
         for (int i = 0; i < x_dim; i++) {
             for (int j = 0; j < y_dim; j++) {
-                board_squares.put(new BSCoordinate(i, j), new BSSquare(i, j, BSSquare.S_UNKNOWN));
+                getBoardSquares().put(new BSCoordinate(i, j), new BSSquare(i, j, BSSquare.S_UNKNOWN));
             }
         }
     }
@@ -104,6 +112,10 @@ public abstract class Board {
         }
 
     }
+    
+	public boolean setExplosive(BSCoordinate nextshot) {
+		return setExplosive(nextshot.x(), nextshot.y());
+	}
 
     /*
      * This method places a ship.
@@ -161,16 +173,16 @@ public abstract class Board {
         if (!gameInProgress) {
             beginGame();
         }
-        if (!board_squares.containsKey(new BSCoordinate(x, y))) {
+        if (!getBoardSquares().containsKey(new BSCoordinate(x, y))) {
             return B_ERROR;
         } //If there's a ship there.
-        else if (board_squares.get(new BSCoordinate(x, y)).status() == BSSquare.S_LIVE_SHIP) {
+        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_LIVE_SHIP) {
 
             int hitshipindex = -1;
 
             for (int i = 0; i < board_ships.size(); i++) {
-                for (int j = 0; j < board_ships.get(i).squares.size(); j++) {
-                    if (board_ships.get(i).squares.get(j).x() == x && board_ships.get(i).squares.get(j).y() == y) {
+                for (int j = 0; j < board_ships.get(i).getSquares().size(); j++) {
+                    if (board_ships.get(i).getSquares().get(j).x() == x && board_ships.get(i).getSquares().get(j).y() == y) {
                         hitshipindex = i;
                     }
                 }
@@ -189,12 +201,12 @@ public abstract class Board {
             return result;
 
         } //If there's no ship.
-        else if (board_squares.get(new BSCoordinate(x, y)).status() == BSSquare.S_UNKNOWN) {
+        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_UNKNOWN) {
             updateBoardSquare(x, y, BSSquare.S_MISS);
             misses++;
             return B_MISS;
         } //If, regardless of whether there's a ship or not, 
-        else if (board_squares.get(new BSCoordinate(x, y)).status() == BSSquare.S_MISS || board_squares.get(new BSCoordinate(x, y)).status() == BSSquare.S_HIT_SHIP || board_squares.get(new BSCoordinate(x, y)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
+        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_MISS || getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_HIT_SHIP || getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
             misses++;
             return B_ALREADYHIT;
         } else {
@@ -204,7 +216,7 @@ public abstract class Board {
     }
 
     public HashMap<BSCoordinate, BSSquare> drawBoard() {
-        return board_squares;
+        return getBoardSquares();
     }
 
     public boolean hasLost() {
@@ -267,4 +279,35 @@ public abstract class Board {
             return true;
         }
     }
+
+	public void increaseHitsByOne() {
+		hits++;
+	}
+
+	/**
+	 * @return the mapping of coordinates to their entries.
+	 */
+	public HashMap<BSCoordinate, BSSquare> getBoardSquares() {
+		return board_squares;
+	}
+
+	/**
+	 * @return the explosive's coordinate object.
+	 */
+	public BSCoordinate getExplosive() {
+		return explosive;
+	}
+	
+    public boolean displayUndercoverShips() {
+		return displayUndercoverShips;
+	}
+    
+    public String getBoardName() {
+		return name;
+	}
+    
+    public ArrayList<Ship> getBoardShips() {
+		return board_ships;
+	}
+
 }

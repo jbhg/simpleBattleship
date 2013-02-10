@@ -1,5 +1,3 @@
-srcs = $(wildcard *.java) 
-
 all:
 	mkdir -p bin 
 	javac -Xlint:deprecation -Xlint:unchecked */*.java -d bin

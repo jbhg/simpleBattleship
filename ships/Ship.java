@@ -23,6 +23,7 @@ package ships;
 
 import java.util.ArrayList;
 
+import logic.BSCoordinate;
 import logic.BSSquare;
 import boards.Board;
 import debug.BSIO;
@@ -32,7 +33,7 @@ import debug.Debug;
  *
  * @author joelgreenberg
  */
-public abstract class Ship {
+public abstract class Ship implements IShip {
     
     public enum ORIENTATION
     {
@@ -132,16 +133,6 @@ public abstract class Ship {
         return getSquares();
     }
 
-    /**
-     * overlap will see if other board_ships overlap with this one.
-     * 
-     * @param s another ship
-     * @return 
-     */
-    public int length() {
-        return length;
-    }
-
     public boolean overlap(Ship s) {
         for (int i = 0; i < s.drawShip().size(); i++) {
             for (int j = 0; j < getSquares().size(); j++) {
@@ -154,10 +145,19 @@ public abstract class Ship {
         return false;
     }
 
-    public String getShipname() {
-        return shipname;
+    @Override
+    public BSCoordinate getFirstCoordinate()
+    {
+        return new BSCoordinate(get_X_start(), get_Y_start());
     }
-
+    
+    @Override
+    public ORIENTATION getOrientation()
+    {
+        // TODO
+        return null;
+    }
+    
     public int get_X_end() {
         return x_end;
     }
@@ -183,6 +183,7 @@ public abstract class Ship {
         return s;
     }
 
+    @Override
     public boolean isSunk() {
         Debug.print("isSunk? Hits remaining: " + hitsRemaining());
         for (BSSquare s : getSquares()) {

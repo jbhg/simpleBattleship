@@ -541,14 +541,14 @@ public class GameGUI extends JFrame implements ActionListener {
             int compcount_sq = -1, usercount_sq = -1;
 
             for (int i = 0; i <
-                    compboard.getBoardShips().get(compship).length(); i++) {
+                    compboard.getBoardShips().get(compship).getLength(); i++) {
                 if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                     compcount_sq++;
                 }
 
             }
             for (int i = 0; i <
-                    userboard.getBoardShips().get(usership).length(); i++) {
+                    userboard.getBoardShips().get(usership).getLength(); i++) {
                 if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                     usercount_sq++;
                 }
@@ -563,7 +563,7 @@ public class GameGUI extends JFrame implements ActionListener {
                 //Now we have our squares selected. We need to find the coordinates.
                 int compcounter = -1, usercounter = -1;
                 for (int i = 0; i <
-                        compboard.getBoardShips().get(compship).length(); i++) {
+                        compboard.getBoardShips().get(compship).getLength(); i++) {
                     if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                         compcounter++;
                         if (compcounter == compshot) {
@@ -573,7 +573,7 @@ public class GameGUI extends JFrame implements ActionListener {
                     }
                 }
                 for (int i = 0; i <
-                        userboard.getBoardShips().get(usership).length(); i++) {
+                        userboard.getBoardShips().get(usership).getLength(); i++) {
                     if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
                         usercounter++;
                         if (usercounter == usershot) {

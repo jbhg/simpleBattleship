@@ -14,7 +14,7 @@ import boards.Board;
 public class Cruiser extends Ship
 {
     public Cruiser(Board board, int x_start, int y_start,
-            ORIENTATION orientation)
+            Orientation orientation)
     {
         super(board, new BSCoordinate(x_start, y_start), orientation);
     }

@@ -14,7 +14,7 @@ import boards.Board;
 public class Destroyer extends Ship
 {
     public Destroyer(Board board, int x_start, int y_start,
-            ORIENTATION orientation)
+            Orientation orientation)
     {
         super(board, new BSCoordinate(x_start, y_start), orientation);
     }

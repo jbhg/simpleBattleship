@@ -8,7 +8,7 @@ public interface IShip
     
     public int getLength();
     
-    public Ship.ORIENTATION getOrientation();
+    public Orientation getOrientation();
     
     public BSCoordinate getFirstCoordinate();
 

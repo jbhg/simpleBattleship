@@ -20,8 +20,7 @@ public class SteelSubmarine extends Ship
     private BSCoordinate firsthit;
     private int          steelsub_hits;
 
-    public SteelSubmarine(Board board, int x_start, int y_start,
-            ORIENTATION orientation)
+    public SteelSubmarine(Board board, int x_start, int y_start, Orientation orientation)
     {
         super(board, new BSCoordinate(x_start, y_start), orientation);
         sunksubinit();

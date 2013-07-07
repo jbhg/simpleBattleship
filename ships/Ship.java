@@ -27,7 +27,6 @@ import java.util.List;
 import logic.BSCoordinate;
 import logic.BSSquare;
 import boards.Board;
-import debug.BSIO;
 import debug.Debug;
 
 /**
@@ -37,40 +36,12 @@ import debug.Debug;
 public abstract class Ship implements IShip
 {
 
-    public enum ORIENTATION
-    {
-        VERTICAL, HORIZONTAL;
-
-        public static ORIENTATION getRandomOrientation()
-        {
-            return BSIO.getRandomInt(2) % 2 == 0 ? HORIZONTAL : VERTICAL;
-        }
-
-        public static ORIENTATION getOrientationFromString(String sOrientation)
-        {
-            if (sOrientation.equals("Horizontal"))
-            {
-                return HORIZONTAL;
-            } else if (sOrientation.equals("Vertical"))
-            {
-                return VERTICAL;
-            } else
-            {
-                System.err
-                        .println("There was an error in determining Ship.ORIENTATION from ["
-                                + sOrientation
-                                + "]. Returning random orientation.");
-                return getRandomOrientation();
-            }
-        }
-    }
-
-    protected ORIENTATION         orientation;
+    protected Orientation         orientation;
     protected BSCoordinate        startCoord;
     protected List<BSSquare> squares;
     protected Board               GPSboard;
 
-    public Ship(Board board, BSCoordinate startCoord, ORIENTATION orientation)
+    public Ship(Board board, BSCoordinate startCoord, Orientation orientation)
     {
         Debug.println("Trying to create a ship of type " + getName() + " at coordinates " + startCoord);
         this.GPSboard = board;
@@ -85,14 +56,14 @@ public abstract class Ship implements IShip
         List<BSSquare> allSquares = new ArrayList<BSSquare>();
 
         // Instance 1: the change is in the x-coordinate.
-        if (this.orientation == ORIENTATION.HORIZONTAL)
+        if (this.orientation == Orientation.HORIZONTAL)
         {
             for (int i = 0; i < getLength(); i++)
             {
                 allSquares.add(new BSSquare(startCoord.x() + i, startCoord.y(), nInitialStatus));
             }
         } // Instance 2: the change is in the y-coordinate.
-        else if (this.orientation == ORIENTATION.VERTICAL)
+        else if (this.orientation == Orientation.VERTICAL)
         {
             for (int i = 0; i < getLength(); i++)
             {
@@ -144,7 +115,7 @@ public abstract class Ship implements IShip
     }
 
     @Override
-    public ORIENTATION getOrientation()
+    public Orientation getOrientation()
     {
         return orientation;
     }
@@ -152,7 +123,7 @@ public abstract class Ship implements IShip
     @Deprecated
     public int get_X_end()
     {
-        return get_X_start() + (orientation == ORIENTATION.HORIZONTAL ? getLength() - 1 : 0);
+        return get_X_start() + (orientation == Orientation.HORIZONTAL ? getLength() - 1 : 0);
     }
 
     @Deprecated
@@ -164,7 +135,7 @@ public abstract class Ship implements IShip
     @Deprecated
     public int get_Y_end()
     {
-        return get_Y_start() + (orientation == ORIENTATION.VERTICAL ? getLength() - 1 : 0);
+        return get_Y_start() + (orientation == Orientation.VERTICAL ? getLength() - 1 : 0);
     }
 
     @Deprecated
@@ -215,9 +186,9 @@ public abstract class Ship implements IShip
             if (getSquares().get(i).x() == x && getSquares().get(i).y() == y)
             {
                 getSquares().get(i).setStatus(BSSquare.Status.HIT);
-
             }
         }
+        
         GPSboard.updateBoardSquare(x, y, BSSquare.Status.HIT);
         GPSboard.increaseHitsByOne();
 
@@ -228,20 +199,8 @@ public abstract class Ship implements IShip
             // We need to make the ship PRINT as if it's sunk:
             for (int i = 0; i < drawShip().size(); i++)
             {
-                // Debug.print("Coords of sunk ship:" +
-                // board_ships.get(hitshipindex).drawShip().get(i).x() + "," +
-                // board_ships.get(hitshipindex).drawShip().get(i).y() + ":" +
-                // board_ships.get(hitshipindex).drawShip().get(i).status());
-
-                // board_ships.get(hitshipindex).board_squares.get(i).updateBoardSquare(BSSquare.S_HIT_AND_SUNK_SHIP);
                 drawShip().get(i).setStatus(BSSquare.Status.SUNK);
                 GPSboard.updateBoardSquare(drawShip().get(i).x(), drawShip().get(i).y(), BSSquare.Status.SUNK);
-                // Debug.println("\tCoords of sunk ship:" +
-                // board_ships.get(hitshipindex).drawShip().get(i).x() + "," +
-                // board_ships.get(hitshipindex).drawShip().get(i).y() + ":" +
-                // board_ships.get(hitshipindex).drawShip().get(i).status());
-                // Debug.println("\t\t" +
-                // getStringFromIntStatus(board_ships.get(hitshipindex).board_squares.get(i).status()));
             }
 
             return Board.B_HIT_SUNK;
@@ -282,36 +241,3 @@ public abstract class Ship implements IShip
         return squares;
     }
 }
-/*
- * @return one of the B_ - variables, based on a Board status.
- * 
- * The idea behind this method is that a User Interface "shoots" the board, and
- * then the board "shoots" the ship, if a ship exists, and returns whatever the
- * ship would like.
- * 
- * This allows board_ships to act however they wish upon being shot. For
- * example, a "DoubleHullBattleShip" would have to be hit in two different
- * board_squares before either is visible; or, a "SunkSubmarine" would be hit on
- * one turn, but would not be visible until the next turn (it would have to
- * communicate with the board more thoroughly), as the ship was sunk, but rose
- * to the top of the water upon its being shot.
- */
-// public int shoot(int x, int y) {
-//
-// for (int i = 0; i < squares.size(); i++) {
-// if (squares.get(i).x() == x && squares.get(i).y() == y) {
-// squares.get(i).setStatus(BSSquare.S_HIT_SHIP);
-// if (isSunk()) {
-// for (int k = 0; k < squares.size(); k++) {
-// squares.get(i).setStatus(BSSquare.S_HIT_AND_SUNK_SHIP);
-// }
-// return Board.B_HIT_SUNK;
-// } else {
-// return Board.B_HIT;
-// }
-// }
-// }
-// //If this is reached, the ship does not exist here.
-// return BSSquare.Status.MISS;
-// }
-

@@ -31,7 +31,7 @@ import ships.Battleship;
 import ships.Carrier;
 import ships.Cruiser;
 import ships.Destroyer;
-import ships.Ship;
+import ships.Orientation;
 import ships.SteelSubmarine;
 import ships.Submarine;
 import boards.Board;
@@ -356,17 +356,17 @@ public class GameGUI extends JFrame implements ActionListener {
         {
             Debug.println("ships_to_be_placed is ok.");
             if (ship.equals("Battleship")) {
-                shipplaced = userboard.placeship(new Battleship(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
+                shipplaced = userboard.placeship(new Battleship(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             } else if (ship.equals("Cruiser")) {
-                shipplaced = userboard.placeship(new Cruiser(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
+                shipplaced = userboard.placeship(new Cruiser(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             } else if (ship.equals("Destroyer")) {
-                shipplaced = userboard.placeship(new Destroyer(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
+                shipplaced = userboard.placeship(new Destroyer(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             } else if (ship.equals("Carrier")) {
-                shipplaced = userboard.placeship(new Carrier(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
+                shipplaced = userboard.placeship(new Carrier(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             } else if (ship.equals("SteelSubmarine")) {
-                shipplaced = userboard.placeship(new SteelSubmarine(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
+                shipplaced = userboard.placeship(new SteelSubmarine(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             } else/*if (ship.equals("Submarine"))*/ {
-                shipplaced = userboard.placeship(new Submarine(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
+                shipplaced = userboard.placeship(new Submarine(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             }
 
             if (shipplaced) {
@@ -633,16 +633,11 @@ public class GameGUI extends JFrame implements ActionListener {
         int x, y;
         try {
             x = new Integer(xcoord.getText());
-            y =
-                    new Integer(ycoord.getText());
-
+            y = new Integer(ycoord.getText());
         } catch (Exception e) {
             x = -1;
             y = -1;
         }
-
-        int[] ret = {x, y};
-        return ret;
-
+        return new int[] {x, y};
     }
 }

@@ -76,6 +76,9 @@ public class BSCoordinate {
             return Math.abs(rhs.x() - x);
         }
     }
+    
+    
+    
 
     /**
      * @param coords 

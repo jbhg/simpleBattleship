@@ -10,7 +10,7 @@ import boards.Board;
 public class Battleship extends Ship
 {
     public Battleship(Board board, int x_start, int y_start,
-            ORIENTATION orientation)
+            Orientation orientation)
     {
         super(board, new BSCoordinate(x_start, y_start), orientation);
     }

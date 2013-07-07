@@ -8,13 +8,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 
 import logic.BSCoordinate;
 import logic.BSSquare;
-
-import debug.Debug;
-
 import boards.Board;
 
 /**

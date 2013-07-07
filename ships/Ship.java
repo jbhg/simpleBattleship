@@ -35,7 +35,6 @@ import debug.Debug;
  */
 public abstract class Ship implements IShip
 {
-
     protected Orientation         orientation;
     protected BSCoordinate        startCoord;
     protected List<BSSquare> squares;
@@ -200,7 +199,7 @@ public abstract class Ship implements IShip
             for (int i = 0; i < drawShip().size(); i++)
             {
                 drawShip().get(i).setStatus(BSSquare.Status.SUNK);
-                GPSboard.updateBoardSquare(drawShip().get(i).x(), drawShip().get(i).y(), BSSquare.Status.SUNK);
+                GPSboard.updateBoardSquare(drawShip().get(i).getCoordinate(), BSSquare.Status.SUNK);
             }
 
             return Board.B_HIT_SUNK;

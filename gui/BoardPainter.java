@@ -56,7 +56,7 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
                 g.setColor(squareColor(board.drawBoard().get(coord).status()));
             } else { //    2. In case we're supposed to conceal the locations of board_ships, we will do so.
                 //if (board.drawBoard().get(coord).status() == BSSquare.S_LIVE_SHIP) {
-                g.setColor(squareColor(BSSquare.S_UNKNOWN));
+                g.setColor(squareColor(BSSquare.Status.UNKNOWN));
                 //} else {g.setColor(squareColor(board.drawBoard().get(coord).status()));}
             }
 
@@ -94,11 +94,6 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
 
     public static Color squareColor(BSSquare.Status status) {
         return status.getColor();
-    }
-
-    @Deprecated
-    public static Color squareColor(int i) {
-        return BSSquare.Status.getStausFromInt(i).getColor();
     }
 
     //The following five methods are the implementations of MouseListener.

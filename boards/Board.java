@@ -74,16 +74,20 @@ public abstract class Board {
      * This method sets the status of a square.
      */
 
-    public boolean updateBoardSquare(int x, int y, BSSquare.Status status) {
-        if (!getBoardSquares().containsKey(new BSCoordinate(x, y))) {
+    
+    public boolean updateBoardSquare(BSCoordinate coord, BSSquare.Status status) {
+        if (!getBoardSquares().containsKey(coord)) {
             return false;
         } else {
-            getBoardSquares().remove(new BSCoordinate(x, y));
-            getBoardSquares().put(new BSCoordinate(x, y),
-                    new BSSquare(x, y, status));
+            getBoardSquares().remove(coord);
+            getBoardSquares().put(coord,new BSSquare(coord, status));
             return true;
         }
-
+    }
+    
+    @Deprecated
+    public boolean updateBoardSquare(int x, int y, BSSquare.Status status) {
+        return updateBoardSquare(new BSCoordinate(x,y), status);
     }
 
     public void initialize() {
@@ -142,7 +146,7 @@ public abstract class Board {
 
             //1. we'll add its information to the board, for the sake of painting.
             for (int m = 0; m < s.drawShip().size(); m++) {
-                updateBoardSquare(s.drawShip().get(m).x(), s.drawShip().get(m).y(), BSSquare.Status.KNOWN_SHIP);
+                updateBoardSquare(s.drawShip().get(m).getCoordinate(), BSSquare.Status.KNOWN_SHIP);
             }
 
             //2. we also need to maintain information about the ship.
@@ -201,7 +205,7 @@ public abstract class Board {
 
         } //If there's no ship.
         else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.Status.UNKNOWN) {
-            updateBoardSquare(x, y, BSSquare.Status.MISS);
+            updateBoardSquare(new BSCoordinate(x, y), BSSquare.Status.MISS);
             misses++;
             return B_MISS;
         } //If, regardless of whether there's a ship or not, 

@@ -20,7 +20,7 @@ public class Destroyer extends Ship {
         super(board, 2, x_start, y_start, x_end, y_end, "Destroyer");
     }
 
-    public Destroyer(Board board, int x_start, int y_start, int orientation) {
+    public Destroyer(Board board, int x_start, int y_start, ORIENTATION orientation) {
         super(board, 2, x_start, y_start, orientation, "Destroyer");
     }
 }

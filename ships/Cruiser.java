@@ -20,7 +20,7 @@ public class Cruiser extends Ship {
         super(board, 3, x_start, y_start, x_end, y_end, "Cruiser");
     }
 
-        public Cruiser(Board board, int x_start, int y_start, int orientation) {
+        public Cruiser(Board board, int x_start, int y_start, ORIENTATION orientation) {
         super(board, 3, x_start, y_start, orientation, "Cruiser");
     }
 }

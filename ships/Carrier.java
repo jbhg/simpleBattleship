@@ -19,7 +19,7 @@ public class Carrier extends Ship {
     public Carrier(Board board, int x_start, int y_start, int x_end, int y_end) {
         super(board, 5, x_start, y_start, x_end, y_end, "Carrier");
     }
-        public Carrier(Board board, int x_start, int y_start, int orientation) {
+        public Carrier(Board board, int x_start, int y_start, ORIENTATION orientation) {
         super(board, 5, x_start, y_start, orientation, "Carrier");
     }
 }

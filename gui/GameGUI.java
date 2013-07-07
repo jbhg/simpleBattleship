@@ -359,17 +359,17 @@ public class GameGUI extends JFrame implements ActionListener {
         {
             Debug.println("ships_to_be_placed is ok.");
             if (ship.equals("Battleship")) {
-                shipplaced = userboard.placeship(new Battleship(userboard, x, y, Ship.orientationInt(orientation)));
+                shipplaced = userboard.placeship(new Battleship(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
             } else if (ship.equals("Cruiser")) {
-                shipplaced = userboard.placeship(new Cruiser(userboard, x, y, Ship.orientationInt(orientation)));
+                shipplaced = userboard.placeship(new Cruiser(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
             } else if (ship.equals("Destroyer")) {
-                shipplaced = userboard.placeship(new Destroyer(userboard, x, y, Ship.orientationInt(orientation)));
+                shipplaced = userboard.placeship(new Destroyer(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
             } else if (ship.equals("Carrier")) {
-                shipplaced = userboard.placeship(new Carrier(userboard, x, y, Ship.orientationInt(orientation)));
+                shipplaced = userboard.placeship(new Carrier(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
             } else if (ship.equals("SteelSubmarine")) {
-                shipplaced = userboard.placeship(new SteelSubmarine(userboard, x, y, Ship.orientationInt(orientation)));
+                shipplaced = userboard.placeship(new SteelSubmarine(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
             } else/*if (ship.equals("Submarine"))*/ {
-                shipplaced = userboard.placeship(new Submarine(userboard, x, y, Ship.orientationInt(orientation)));
+                shipplaced = userboard.placeship(new Submarine(userboard, x, y, Ship.ORIENTATION.getOrientationFromString(orientation)));
             }
 
             if (shipplaced) {

@@ -131,41 +131,41 @@ public class CBoardAIRecursive implements BSAI {
 	public void placeships() {
         boolean shipplaced;
 
-        board.placeship(new SteelSubmarine(board, 0, 0, 1));
+        board.placeship(new SteelSubmarine(board, 0, 0, Ship.ORIENTATION.getRandomOrientation()));
 
         shipplaced = false;
-        shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+        shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+            shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         }
 
         shipplaced = false;
-        shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+        shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
-        }
-
-        shipplaced = false;
-        shipplaced =
-                board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
-        while (!shipplaced) {
-            shipplaced = board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
-
+            shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         }
 
         shipplaced = false;
         shipplaced =
-                board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+                board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+            shipplaced = board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
 
         }
 
         shipplaced = false;
         shipplaced =
-                board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+                board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), BSIO.getRandomInt(2) + 1));
+            shipplaced = board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
+
+        }
+
+        shipplaced = false;
+        shipplaced =
+                board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
+        while (!shipplaced) {
+            shipplaced = board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Ship.ORIENTATION.getRandomOrientation()));
         }
 
         board.setExplosive(nextshot());

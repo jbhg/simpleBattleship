@@ -41,10 +41,10 @@ public class SteelSubmarine extends Ship
         {
             if (getSquares().get(i).x() == x && getSquares().get(i).y() == y)
             {
-                getSquares().get(i).setStatus(BSSquare.S_MISS);
+                getSquares().get(i).setStatus(BSSquare.Status.MISS);
             }
         }
-        GPSboard.updateBoardSquare(x, y, BSSquare.S_MISS);
+        GPSboard.updateBoardSquare(x, y, BSSquare.Status.MISS);
         if (!hitonce)
         {
             firsthit = new BSCoordinate(x, y);
@@ -61,11 +61,11 @@ public class SteelSubmarine extends Ship
                     if (getSquares().get(i).x() == firsthit.x()
                             && getSquares().get(i).y() == firsthit.y())
                     {
-                        getSquares().get(i).setStatus(BSSquare.S_HIT_SHIP);
+                        getSquares().get(i).setStatus(BSSquare.Status.HIT);
                     }
                 }
                 GPSboard.updateBoardSquare(firsthit.x(), firsthit.y(),
-                        BSSquare.S_HIT_SHIP);
+                        BSSquare.Status.HIT);
                 GPSboard.increaseHitsByOne();
             }
 
@@ -74,10 +74,10 @@ public class SteelSubmarine extends Ship
                 if (getSquares().get(i).x() == x
                         && getSquares().get(i).y() == y)
                 {
-                    getSquares().get(i).setStatus(BSSquare.S_HIT_SHIP);
+                    getSquares().get(i).setStatus(BSSquare.Status.HIT);
                 }
             }
-            GPSboard.updateBoardSquare(x, y, BSSquare.S_HIT_SHIP);
+            GPSboard.updateBoardSquare(x, y, BSSquare.Status.HIT);
             GPSboard.increaseHitsByOne();
             steelsub_hits++;
 
@@ -95,9 +95,9 @@ public class SteelSubmarine extends Ship
                     // board_ships.get(hitshipindex).drawShip().get(i).status());
 
                     // board_ships.get(hitshipindex).board_squares.get(i).updateBoardSquare(BSSquare.S_HIT_AND_SUNK_SHIP);
-                    drawShip().get(i).setStatus(BSSquare.S_HIT_AND_SUNK_SHIP);
+                    drawShip().get(i).setStatus(BSSquare.Status.SUNK);
                     GPSboard.updateBoardSquare(drawShip().get(i).x(),
-                            drawShip().get(i).y(), BSSquare.S_HIT_AND_SUNK_SHIP);
+                            drawShip().get(i).y(), BSSquare.Status.SUNK);
                     // Debug.println("\tCoords of sunk ship:" +
                     // board_ships.get(hitshipindex).drawShip().get(i).x() + ","
                     // + board_ships.get(hitshipindex).drawShip().get(i).y() +

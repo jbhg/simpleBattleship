@@ -54,7 +54,7 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
 
             //Let's figure out what color to paint this guy. First, we test to see if:
             //  1. The board should be painted fairly; or if the square is NOT a live ship.
-            if (board.displayUndercoverShips() || board.drawBoard().get(coord).status() != BSSquare.S_LIVE_SHIP) {
+            if (board.displayUndercoverShips() || board.drawBoard().get(coord).status() != BSSquare.Status.KNOWN_SHIP) {
                 g.setColor(squareColor(board.drawBoard().get(coord).status()));
             } else { //    2. In case we're supposed to conceal the locations of board_ships, we will do so.
                 //if (board.drawBoard().get(coord).status() == BSSquare.S_LIVE_SHIP) {
@@ -94,30 +94,13 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
         return board;
     }
 
-    //
+    public static Color squareColor(BSSquare.Status status) {
+        return status.getColor();
+    }
+
+    @Deprecated
     public static Color squareColor(int i) {
-        /*Given:
-         *
-        public static final int S_UNKNOWN = 1;
-        public static final int B_MISS = 2;
-        public static final int B_HIT = 3;
-        public static final int S_LIVE_SHIP = 4;
-         */
-        switch (i) {
-            case BSSquare.S_UNKNOWN:
-                return Color.LIGHT_GRAY;
-            case BSSquare.S_HIT_SHIP:
-                return Color.MAGENTA;
-            case BSSquare.S_MISS:
-                return Color.BLUE;
-            case BSSquare.S_LIVE_SHIP:
-                return Color.DARK_GRAY;
-            case BSSquare.S_HIT_AND_SUNK_SHIP:
-                return Color.RED;
-            default:
-                Debug.print("ERROR! NUMBER GIVEN TO THE SWITCH (COLOR) METHOD IS " + i);
-                return Color.YELLOW;
-        }
+        return BSSquare.Status.getStausFromInt(i).getColor();
     }
 
     //The following five methods are the implementations of MouseListener.

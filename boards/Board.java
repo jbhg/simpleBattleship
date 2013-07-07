@@ -6,14 +6,12 @@ package boards;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import logic.BSCoordinate;
 import logic.BSSquare;
-
-import debug.Debug;
-
-
 import ships.Ship;
+import debug.Debug;
 
 /**
  *
@@ -75,7 +73,7 @@ public abstract class Board {
      * This method sets the status of a square.
      */
 
-    public boolean updateBoardSquare(int x, int y, int status) {
+    public boolean updateBoardSquare(int x, int y, BSSquare.Status status) {
         if (!getBoardSquares().containsKey(new BSCoordinate(x, y))) {
             return false;
         } else {
@@ -97,7 +95,7 @@ public abstract class Board {
         getBoardSquares().clear();
         for (int i = 0; i < x_dim; i++) {
             for (int j = 0; j < y_dim; j++) {
-                getBoardSquares().put(new BSCoordinate(i, j), new BSSquare(i, j, BSSquare.S_UNKNOWN));
+                getBoardSquares().put(new BSCoordinate(i, j), new BSSquare(i, j, BSSquare.Status.UNKNOWN));
             }
         }
     }
@@ -143,7 +141,7 @@ public abstract class Board {
 
             //1. we'll add its information to the board, for the sake of painting.
             for (int m = 0; m < s.drawShip().size(); m++) {
-                updateBoardSquare(s.drawShip().get(m).x(), s.drawShip().get(m).y(), BSSquare.S_LIVE_SHIP);
+                updateBoardSquare(s.drawShip().get(m).x(), s.drawShip().get(m).y(), BSSquare.Status.KNOWN_SHIP);
             }
 
             //2. we also need to maintain information about the ship.
@@ -176,7 +174,7 @@ public abstract class Board {
         if (!getBoardSquares().containsKey(new BSCoordinate(x, y))) {
             return B_ERROR;
         } //If there's a ship there.
-        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_LIVE_SHIP) {
+        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.Status.KNOWN_SHIP) {
 
             int hitshipindex = -1;
 
@@ -201,12 +199,12 @@ public abstract class Board {
             return result;
 
         } //If there's no ship.
-        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_UNKNOWN) {
-            updateBoardSquare(x, y, BSSquare.S_MISS);
+        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.Status.UNKNOWN) {
+            updateBoardSquare(x, y, BSSquare.Status.MISS);
             misses++;
             return B_MISS;
         } //If, regardless of whether there's a ship or not, 
-        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_MISS || getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_HIT_SHIP || getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
+        else if (getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.Status.MISS || getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.Status.HIT || getBoardSquares().get(new BSCoordinate(x, y)).status() == BSSquare.Status.SUNK) {
             misses++;
             return B_ALREADYHIT;
         } else {
@@ -234,7 +232,7 @@ public abstract class Board {
 
     private boolean isSunk(int index) {
         for (int j = 0; j < board_ships.get(index).drawShip().size(); j++) {
-            if (board_ships.get(index).drawShip().get(j).status() != BSSquare.S_HIT_AND_SUNK_SHIP && board_ships.get(index).drawShip().get(j).status() != BSSquare.S_HIT_SHIP) {
+            if (board_ships.get(index).drawShip().get(j).status() != BSSquare.Status.SUNK && board_ships.get(index).drawShip().get(j).status() != BSSquare.Status.HIT) {
                 return false;
             }
 
@@ -306,7 +304,7 @@ public abstract class Board {
 		return name;
 	}
     
-    public ArrayList<Ship> getBoardShips() {
+    public List<Ship> getBoardShips() {
 		return board_ships;
 	}
 
@@ -325,5 +323,4 @@ public abstract class Board {
             return false;
         }
     }
-    
 }

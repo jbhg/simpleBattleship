@@ -70,22 +70,16 @@ public abstract class Ship implements IShip
     protected List<BSSquare> squares;
     protected Board               GPSboard;
 
-    @Deprecated
-    public Ship(Board board, int x_start, int y_start, ORIENTATION orientation)
-    {
-        this(board, new BSCoordinate(x_start, y_start), orientation);
-    }
-
     public Ship(Board board, BSCoordinate startCoord, ORIENTATION orientation)
     {
         Debug.println("Trying to create a ship of type " + getName() + " at coordinates " + startCoord);
         this.GPSboard = board;
         this.startCoord = startCoord;
         this.orientation = orientation;
-        setArrayOfBattleSquares(startCoord, BSSquare.S_LIVE_SHIP);
+        setArrayOfBattleSquares(startCoord, BSSquare.Status.KNOWN_SHIP);
     }
 
-    private void setArrayOfBattleSquares(BSCoordinate startCoord, int nInitialStatus)
+    private void setArrayOfBattleSquares(BSCoordinate startCoord, BSSquare.Status nInitialStatus)
     {
         // Now we establish an array of board_squares over which the ship sits.
         List<BSSquare> allSquares = new ArrayList<BSSquare>();
@@ -95,8 +89,7 @@ public abstract class Ship implements IShip
         {
             for (int i = 0; i < getLength(); i++)
             {
-                allSquares.add(new BSSquare(startCoord.x() + i, startCoord.y(),
-                        nInitialStatus));
+                allSquares.add(new BSSquare(startCoord.x() + i, startCoord.y(), nInitialStatus));
             }
         } // Instance 2: the change is in the y-coordinate.
         else if (this.orientation == ORIENTATION.VERTICAL)
@@ -108,7 +101,6 @@ public abstract class Ship implements IShip
             }
         }
         setSquares(allSquares);
-
     }
 
     /**
@@ -148,7 +140,7 @@ public abstract class Ship implements IShip
     @Override
     public BSCoordinate getFirstCoordinate()
     {
-        return this.startCoord;
+        return startCoord;
     }
 
     @Override
@@ -157,21 +149,25 @@ public abstract class Ship implements IShip
         return orientation;
     }
 
+    @Deprecated
     public int get_X_end()
     {
         return get_X_start() + (orientation == ORIENTATION.HORIZONTAL ? getLength() - 1 : 0);
     }
 
+    @Deprecated
     public int get_X_start()
     {
         return this.startCoord.x();
     }
 
+    @Deprecated
     public int get_Y_end()
     {
         return get_Y_start() + (orientation == ORIENTATION.VERTICAL ? getLength() - 1 : 0);
     }
 
+    @Deprecated
     public int get_Y_start()
     {
         return this.startCoord.y();
@@ -192,8 +188,7 @@ public abstract class Ship implements IShip
                     + ": "
                     + getSquares().get(i).status()
                     + "/"
-                    + BSSquare
-                            .getStringFromSquare(getSquares().get(i).status())
+                    + BSSquare.getStringFromSquare(getSquares().get(i).status())
                     + "]\n";
         }
         return s;
@@ -205,8 +200,7 @@ public abstract class Ship implements IShip
         Debug.print("isSunk? Hits remaining: " + hitsRemaining());
         for (BSSquare s : getSquares())
         {
-            if (s.status() != BSSquare.S_HIT_SHIP
-                    && s.status() != BSSquare.S_HIT_AND_SUNK_SHIP)
+            if (s.status() != BSSquare.Status.HIT && s.status() != BSSquare.Status.SUNK)
             {
                 return false;
             }
@@ -220,11 +214,11 @@ public abstract class Ship implements IShip
         {
             if (getSquares().get(i).x() == x && getSquares().get(i).y() == y)
             {
-                getSquares().get(i).setStatus(BSSquare.S_HIT_SHIP);
+                getSquares().get(i).setStatus(BSSquare.Status.HIT);
 
             }
         }
-        GPSboard.updateBoardSquare(x, y, BSSquare.S_HIT_SHIP);
+        GPSboard.updateBoardSquare(x, y, BSSquare.Status.HIT);
         GPSboard.increaseHitsByOne();
 
         if (isSunk())
@@ -240,9 +234,8 @@ public abstract class Ship implements IShip
                 // board_ships.get(hitshipindex).drawShip().get(i).status());
 
                 // board_ships.get(hitshipindex).board_squares.get(i).updateBoardSquare(BSSquare.S_HIT_AND_SUNK_SHIP);
-                drawShip().get(i).setStatus(BSSquare.S_HIT_AND_SUNK_SHIP);
-                GPSboard.updateBoardSquare(drawShip().get(i).x(), drawShip()
-                        .get(i).y(), BSSquare.S_HIT_AND_SUNK_SHIP);
+                drawShip().get(i).setStatus(BSSquare.Status.SUNK);
+                GPSboard.updateBoardSquare(drawShip().get(i).x(), drawShip().get(i).y(), BSSquare.Status.SUNK);
                 // Debug.println("\tCoords of sunk ship:" +
                 // board_ships.get(hitshipindex).drawShip().get(i).x() + "," +
                 // board_ships.get(hitshipindex).drawShip().get(i).y() + ":" +
@@ -264,8 +257,7 @@ public abstract class Ship implements IShip
         int hitsremaining = 0;
         for (BSSquare s : getSquares())
         {
-            if (s.status() == BSSquare.S_LIVE_SHIP
-                    || s.status() == BSSquare.S_UNKNOWN)
+            if (s.status() == BSSquare.Status.KNOWN_SHIP || s.status() == BSSquare.Status.UNKNOWN)
             {
                 hitsremaining++;
             }
@@ -320,6 +312,6 @@ public abstract class Ship implements IShip
 // }
 // }
 // //If this is reached, the ship does not exist here.
-// return BSSquare.S_MISS;
+// return BSSquare.Status.MISS;
 // }
 

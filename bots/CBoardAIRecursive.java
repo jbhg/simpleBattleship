@@ -225,7 +225,7 @@ public class CBoardAIRecursive implements BSAI {
         int sunkCounter = 0;
 
         for (int i = 0; i < hit_list.size(); i++) {
-            if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
+            if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.Status.SUNK) {
                 Debug.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;
@@ -248,7 +248,7 @@ public class CBoardAIRecursive implements BSAI {
         int sunkCounter = 0;
 
         for (int i = 0; i < hit_list.size(); i++) {
-            if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.S_HIT_AND_SUNK_SHIP) {
+            if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.Status.SUNK) {
                 Debug.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;

@@ -27,16 +27,6 @@ import javax.swing.border.LineBorder;
 
 import logic.BSCoordinate;
 import logic.BSSquare;
-
-import debug.BSIO;
-import debug.Debug;
-
-import boards.Board;
-import boards.CBoard;
-import boards.UBoard;
-import bots.BSAI;
-import bots.CBoardAIRecursive;
-
 import ships.Battleship;
 import ships.Carrier;
 import ships.Cruiser;
@@ -44,6 +34,13 @@ import ships.Destroyer;
 import ships.Ship;
 import ships.SteelSubmarine;
 import ships.Submarine;
+import boards.Board;
+import boards.CBoard;
+import boards.UBoard;
+import bots.BSAI;
+import bots.CBoardAIRecursive;
+import debug.BSIO;
+import debug.Debug;
 
 /**
  *
@@ -542,14 +539,14 @@ public class GameGUI extends JFrame implements ActionListener {
 
             for (int i = 0; i <
                     compboard.getBoardShips().get(compship).getLength(); i++) {
-                if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.Status.HIT && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.Status.SUNK) {
                     compcount_sq++;
                 }
 
             }
             for (int i = 0; i <
                     userboard.getBoardShips().get(usership).getLength(); i++) {
-                if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.Status.HIT && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.Status.SUNK) {
                     usercount_sq++;
                 }
 
@@ -564,7 +561,7 @@ public class GameGUI extends JFrame implements ActionListener {
                 int compcounter = -1, usercounter = -1;
                 for (int i = 0; i <
                         compboard.getBoardShips().get(compship).getLength(); i++) {
-                    if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                    if (compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.Status.HIT && compboard.getBoardShips().get(compship).getSquares().get(i).status() != BSSquare.Status.SUNK) {
                         compcounter++;
                         if (compcounter == compshot) {
                             compboard.shoot(compboard.getBoardShips().get(compship).getSquares().get(i).x(), compboard.getBoardShips().get(compship).getSquares().get(i).y());
@@ -574,7 +571,7 @@ public class GameGUI extends JFrame implements ActionListener {
                 }
                 for (int i = 0; i <
                         userboard.getBoardShips().get(usership).getLength(); i++) {
-                    if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_SHIP && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.S_HIT_AND_SUNK_SHIP) {
+                    if (userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.Status.HIT && userboard.getBoardShips().get(usership).getSquares().get(i).status() != BSSquare.Status.SUNK) {
                         usercounter++;
                         if (usercounter == usershot) {
                             userboard.shoot(new BSCoordinate(userboard.getBoardShips().get(usership).getSquares().get(i).x(), userboard.getBoardShips().get(usership).getSquares().get(i).y()));

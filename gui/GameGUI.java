@@ -50,8 +50,8 @@ public class GameGUI extends JFrame implements ActionListener {
 
     //Establish global constants.
     public static final String[] shipnames = {"Carrier", "Battleship", "Cruiser", "Destroyer", "Submarine", "SteelSubmarine"};
-    public final int board_x = 15;
-    public final int board_y = 20;
+    public static final int board_x = 15;
+    public static final int board_y = 20;
     //Establish the "standard" variables for this game.
     private UBoard userboard;
     private CBoard compboard;
@@ -299,8 +299,8 @@ public class GameGUI extends JFrame implements ActionListener {
         }
 
         if (e.getActionCommand().equals("Random Coords")) {
-            xcoord.setText(new Integer(BSIO.getRandomInt(compboard.x_dim)).toString());
-            ycoord.setText(new Integer(BSIO.getRandomInt(compboard.y_dim)).toString());
+            xcoord.setText(Integer.valueOf(BSIO.getRandomInt(compboard.x_dim)).toString());
+            ycoord.setText(Integer.valueOf(BSIO.getRandomInt(compboard.y_dim)).toString());
             combo_orientation.setSelectedIndex(BSIO.getRandomInt(2));
         }
 
@@ -618,8 +618,8 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     public void printCoords(int x, int y) {
-        xcoord.setText(new Integer(x).toString());
-        ycoord.setText(new Integer(y).toString());
+        xcoord.setText(Integer.valueOf(x).toString());
+        ycoord.setText(Integer.valueOf(y).toString());
 
     }
 
@@ -632,8 +632,8 @@ public class GameGUI extends JFrame implements ActionListener {
     private int[] getCoords() {
         int x, y;
         try {
-            x = new Integer(xcoord.getText());
-            y = new Integer(ycoord.getText());
+            x = Integer.valueOf(xcoord.getText());
+            y = Integer.valueOf(ycoord.getText());
         } catch (Exception e) {
             x = -1;
             y = -1;

@@ -75,12 +75,12 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
         }
         //Paint the coordinates in
         for (int i = 1; i < board.x_dim + 1; i++) {
-            g.drawString(new Integer(i - 1).toString(),
+            g.drawString(Integer.valueOf(i - 1).toString(),
                     (i * print_dimension) + 0 * (print_dimension * 1 / 4),
                     print_dimension * 3 / 4);
         }
         for (int i = 1; i < board.y_dim + 1; i++) {
-            g.drawString(new Integer(i - 1).toString(),
+            g.drawString(Integer.valueOf(i - 1).toString(),
                     print_dimension * 0,
                     ((i * print_dimension) + (print_dimension * 3 / 4)));
 

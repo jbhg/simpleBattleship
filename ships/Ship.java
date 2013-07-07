@@ -42,7 +42,6 @@ public abstract class Ship implements IShip
 
     public Ship(Board board, BSCoordinate startCoord, Orientation orientation)
     {
-        Debug.println("Trying to create a ship of type " + getName() + " at coordinates " + startCoord);
         this.GPSboard = board;
         this.startCoord = startCoord;
         this.orientation = orientation;
@@ -66,8 +65,7 @@ public abstract class Ship implements IShip
         {
             for (int i = 0; i < getLength(); i++)
             {
-                allSquares.add(new BSSquare(startCoord.x(), startCoord.y() + i,
-                        nInitialStatus));
+                allSquares.add(new BSSquare(startCoord.x(), startCoord.y() + i, nInitialStatus));
             }
         }
         setSquares(allSquares);

@@ -24,9 +24,9 @@ import ships.Submarine;
 public class Game {
 
     //Establish global constants.
-    public final int shipsperboard = 5;
-    public final int board_x = 7;
-    public final int board_y = 7;
+    public static final int shipsperboard = 5;
+    public static final int board_x = 7;
+    public static final int board_y = 7;
     //Establish the "standard" variables for this game.
     private UBoard userboard;
     private CBoard compboard;

@@ -7,6 +7,7 @@ package gui;
 
 import java.awt.Dimension;
 
+@SuppressWarnings("serial")
 public class BSButton extends javax.swing.JButton {
     /**
 	 * 

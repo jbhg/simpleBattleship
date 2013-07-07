@@ -54,7 +54,7 @@ public class GameGUI extends JFrame implements ActionListener {
     //Establish global constants.
     public static final String[] shipnames = {"Carrier", "Battleship", "Cruiser", "Destroyer", "Submarine", "SteelSubmarine"};
     public final int board_x = 15;
-    public final int board_y = 15;
+    public final int board_y = 20;
     //Establish the "standard" variables for this game.
     private UBoard userboard;
     private CBoard compboard;

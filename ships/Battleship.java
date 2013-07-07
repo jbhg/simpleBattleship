@@ -1,5 +1,6 @@
 package ships;
 
+import logic.BSCoordinate;
 import boards.Board;
 
 /**
@@ -11,7 +12,7 @@ public class Battleship extends Ship
     public Battleship(Board board, int x_start, int y_start,
             ORIENTATION orientation)
     {
-        super(board, 4, x_start, y_start, orientation, "Battleship");
+        super(board, new BSCoordinate(x_start, y_start), orientation);
     }
 
     @Override

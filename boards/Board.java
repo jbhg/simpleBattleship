@@ -310,4 +310,20 @@ public abstract class Board {
 		return board_ships;
 	}
 
+    public static boolean isLegalBoardPlacement(Board board, BSCoordinate originalCoordinate, int length, Ship.ORIENTATION shipOrientation)
+    {
+        if(shipOrientation == Ship.ORIENTATION.HORIZONTAL)
+        {
+            return board.x_dim >= originalCoordinate.x() + length - 1;
+        }
+        else if(shipOrientation == Ship.ORIENTATION.VERTICAL)
+        {
+            return board.y_dim >= originalCoordinate.y() + length - 1;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 }

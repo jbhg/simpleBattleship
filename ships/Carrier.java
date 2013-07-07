@@ -4,6 +4,7 @@
  */
 package ships;
 
+import logic.BSCoordinate;
 import boards.Board;
 
 /**
@@ -15,7 +16,7 @@ public class Carrier extends Ship
     public Carrier(Board board, int x_start, int y_start,
             ORIENTATION orientation)
     {
-        super(board, 5, x_start, y_start, orientation, "Carrier");
+        super(board, new BSCoordinate(x_start, y_start), orientation);
     }
 
     @Override

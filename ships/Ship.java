@@ -61,9 +61,9 @@ public abstract class Ship implements IShip {
         }
     }
     
-    protected int length, x_start, y_start, x_end, y_end;
+    protected ORIENTATION orientation;
+    protected int x_start, y_start, x_end, y_end;
     protected ArrayList<BSSquare> squares;
-    protected String shipname;
     protected Board GPSboard;
 
     @Deprecated
@@ -80,11 +80,7 @@ public abstract class Ship implements IShip {
     @Deprecated
     public Ship(Board board, int length, int x_st, int y_st, int x_en, int y_en, int initialstatus, String name) {
 
-        //First, we establish the length of this ship.
-        this.length = length;
-
         GPSboard = board;
-        shipname = name;
 
         //Make sure the board_ships' coordinates aren't 'backward'. Then place them.
         if (x_st > x_en) {
@@ -165,8 +161,7 @@ public abstract class Ship implements IShip {
     @Override
     public ORIENTATION getOrientation()
     {
-        // TODO
-        return null;
+        return orientation;
     }
     
     public int get_X_end() {
@@ -187,7 +182,7 @@ public abstract class Ship implements IShip {
 
     @Override
     public String toString() {
-        String s = shipname + " (length " + length + ") has the following makeup: \n";
+        String s = getName() + " (length " + getLength() + ") has the following makeup: \n";
         for (int i = 0; i < getSquares().size(); i++) {
             s = s + "[" + getSquares().get(i).x() + "," + getSquares().get(i).y() + ": " + getSquares().get(i).status() + "/" + BSSquare.getStringFromSquare(getSquares().get(i).status()) + "]\n";
         }

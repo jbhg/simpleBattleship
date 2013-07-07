@@ -30,7 +30,7 @@ public class Carrier extends Ship
     {
         super(board, 5, x_start, y_start, orientation, "Carrier");
     }
-
+    
     @Override
     public String getName()
     {

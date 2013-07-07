@@ -71,11 +71,6 @@ public abstract class Ship implements IShip {
         this(board, length, x_start, y_start, orientation == ORIENTATION.VERTICAL ? x_start : x_start + length - 1,
                 orientation == ORIENTATION.HORIZONTAL ? y_start : y_start + length - 1, BSSquare.S_LIVE_SHIP, name);
     }    
-    
-    @Deprecated
-    public Ship(Board board, int length, int x_start, int y_start, int x_end, int y_end, String name) {
-        this(board, length, x_start, y_start, x_end, y_end, BSSquare.S_LIVE_SHIP, name);
-    }
 
     @Deprecated
     public Ship(Board board, int length, int x_st, int y_st, int x_en, int y_en, int initialstatus, String name) {

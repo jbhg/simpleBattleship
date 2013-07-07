@@ -12,19 +12,6 @@ import boards.Board;
  */
 public class Submarine extends Ship
 {
-
-    public Submarine(Board board, int x_start, int y_start, int x_end,
-            int y_end, int initialstatus)
-    {
-        super(board, 3, x_start, y_start, x_end, y_end, initialstatus,
-                "Submarine");
-    }
-
-    public Submarine(Board board, int x_start, int y_start, int x_end, int y_end)
-    {
-        super(board, 3, x_start, y_start, x_end, y_end, "Submarine");
-    }
-
     public Submarine(Board board, int x_start, int y_start,
             ORIENTATION orientation)
     {
@@ -42,7 +29,4 @@ public class Submarine extends Ship
     {
         return 3;
     }
-    
-    
-
 }

@@ -24,18 +24,15 @@ package ships;
 import java.util.ArrayList;
 
 import logic.BSSquare;
-
-import debug.Debug;
-
 import boards.Board;
+import debug.BSIO;
+import debug.Debug;
 
 /**
  *
  * @author joelgreenberg
  */
 public abstract class Ship {
-
-    public static final int UNKNOWN = 0, VERTICAL = 2, HORIZONTAL = 1;
     
     public enum ORIENTATION
     {
@@ -43,7 +40,7 @@ public abstract class Ship {
 
         public static ORIENTATION getRandomOrientation()
         {
-            return VERTICAL;
+            return BSIO.getRandomInt(2) % 2 == 0 ? HORIZONTAL : VERTICAL;
         }
 
         public static ORIENTATION getOrientationFromString(String sOrientation)
@@ -71,12 +68,6 @@ public abstract class Ship {
                 orientation == ORIENTATION.HORIZONTAL ? y_start : y_start + length - 1, BSSquare.S_LIVE_SHIP, name);
     }    
     
-    @Deprecated
-    public Ship(Board board, int length, int x_start, int y_start, int orientation, String name) {
-        this(board, length, x_start, y_start, orientation == VERTICAL ? x_start : x_start + length - 1,
-                orientation == HORIZONTAL ? y_start : y_start + length - 1, BSSquare.S_LIVE_SHIP, name);
-    }
-
     public Ship(Board board, int length, int x_start, int y_start, int x_end, int y_end, String name) {
         this(board, length, x_start, y_start, x_end, y_end, BSSquare.S_LIVE_SHIP, name);
     }
@@ -139,17 +130,6 @@ public abstract class Ship {
      */
     public ArrayList<BSSquare> drawShip() {
         return getSquares();
-    }
-    
-    @Deprecated
-    public static int orientationInt(String s) {
-        if (s.equals("Horizontal")) {
-            return HORIZONTAL;
-        } else if (s.equals("Vertical")) {
-            return VERTICAL;
-        } else {
-            return UNKNOWN;
-        }
     }
 
     /**

@@ -116,17 +116,17 @@ public class Game {
 //        System.out.println(userboard.placeship(new Battleship(2, 1, 2, 4)));
 
 
-        System.out.println(compboard.placeship(new Battleship(compboard, 2, 1, Ship.VERTICAL)));
+        System.out.println(compboard.placeship(new Battleship(compboard, 2, 1, Ship.ORIENTATION.VERTICAL)));
 //        System.out.println(compboard.placeship(new Carrier(15, 3, 15, Ship.VERTICAL)));
 //        System.out.println(compboard.placeship(new Destroyer(20, 17, Ship.HORIZONTAL)));
 //        System.out.println(compboard.placeship(new Cruiser(28, 3, Ship.HORIZONTAL)));
-        System.out.println(compboard.placeship(new Submarine(compboard, 0, 0, Ship.HORIZONTAL)));
+        System.out.println(compboard.placeship(new Submarine(compboard, 0, 0, Ship.ORIENTATION.HORIZONTAL)));
 //
-        System.out.println(userboard.placeship(new Battleship(compboard, 2, 1, Ship.VERTICAL)));
+        System.out.println(userboard.placeship(new Battleship(compboard, 2, 1, Ship.ORIENTATION.VERTICAL)));
 //        System.out.println(userboard.placeship(new Carrier(15, 3, 15, Ship.VERTICAL)));
 //        System.out.println(userboard.placeship(new Destroyer(20, 17, Ship.HORIZONTAL)));
 //        System.out.println(userboard.placeship(new Cruiser(28, 3, Ship.HORIZONTAL)));
-        System.out.println(userboard.placeship(new Submarine(compboard, 0, 0, Ship.HORIZONTAL)));
+        System.out.println(userboard.placeship(new Submarine(compboard, 0, 0, Ship.ORIENTATION.HORIZONTAL)));
 
 //        System.out.println(compboard);
 

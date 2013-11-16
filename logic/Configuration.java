@@ -13,6 +13,6 @@ import org.apache.logging.log4j.Logger;
 public class Configuration
 {
     public final static Logger logger = LogManager.getLogger(Configuration.class.getName());
-    public enum Runmode { PRODUCTION, DEBUG };
+    public enum Runmode { @SuppressWarnings("unused") PRODUCTION, DEBUG };
     public final static Runmode runmode = Runmode.DEBUG;
 }

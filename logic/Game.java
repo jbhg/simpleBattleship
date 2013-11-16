@@ -8,8 +8,6 @@
  */
 package logic;
 
-import debug.BSIO;
-import debug.Debug;
 import boards.Board;
 import boards.CBoard;
 import boards.UBoard;
@@ -61,13 +59,13 @@ public class Game {
             {
                 // int x = BSIO.getInt("X-Coord to shoot");
                 // int y = BSIO.getInt("Y-Coord to shoot");
-                int x = BSIO.getRandomInt(board_x);
-                int y = BSIO.getRandomInt(board_y);
+                int x = BattleshipUtils.getRandomNextInt(board_x);
+                int y = BattleshipUtils.getRandomNextInt(board_y);
                 int shotstatus = compboard.shoot(x, y);
                 while (shotstatus != Board.B_MISS && shotstatus != Board.B_HIT && shotstatus != Board.B_GAMELOST && shotstatus != Board.B_HIT_SUNK) {
 //                    System.out.println("inner while loop executed.");
-                    x = BSIO.getRandomInt(board_x);
-                    y = BSIO.getRandomInt(board_y);
+                    x = BattleshipUtils.getRandomNextInt(board_x);
+                    y = BattleshipUtils.getRandomNextInt(board_y);
 //                    x = BSIO.getInt("X-Coord to shoot");
 //                    y = BSIO.getInt("Y-Coord to shoot");
                     shotstatus = compboard.shoot(x, y);
@@ -79,13 +77,13 @@ public class Game {
             //computer shoots. in brackets in case user just won the game.
             if (!gameOver()) {
                 {
-                    int x = BSIO.getRandomInt(board_x);
-                    int y = BSIO.getRandomInt(board_y);
+                    int x = BattleshipUtils.getRandomNextInt(board_x);
+                    int y = BattleshipUtils.getRandomNextInt(board_y);
                     int shotstatus = userboard.shoot(x, y);
                     while (shotstatus != Board.B_MISS && shotstatus != Board.B_HIT && shotstatus != Board.B_GAMELOST && shotstatus != Board.B_HIT_SUNK) {
 //                        System.out.println("inner while loop executed.");
-                        x = BSIO.getRandomInt(board_x);
-                        y = BSIO.getRandomInt(board_y);
+                        x = BattleshipUtils.getRandomNextInt(board_x);
+                        y = BattleshipUtils.getRandomNextInt(board_y);
                         shotstatus = userboard.shoot(x, y);
                     }
 
@@ -95,7 +93,7 @@ public class Game {
             }
         }
 
-        Debug.println("Winners: User-" + !userboard.hasLost() + ", Computer-" + !compboard.hasLost());
+        BattleshipUtils.println("Winners: User-" + !userboard.hasLost() + ", Computer-" + !compboard.hasLost());
 
     }
 
@@ -147,7 +145,7 @@ public class Game {
     private void beginGame() {
         userboard.beginGame();
         compboard.beginGame();
-        Debug.println("Game begun.");
+        BattleshipUtils.println("Game begun.");
     }
 
     private boolean gameOver() {

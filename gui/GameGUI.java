@@ -28,9 +28,9 @@ import javax.swing.border.LineBorder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import logic.BSCoordinate;
 import logic.BSSquare;
+import logic.BattleshipUtils;
 import ships.ship.Battleship;
 import ships.ship.Carrier;
 import ships.ship.Cruiser;
@@ -43,8 +43,6 @@ import boards.CBoard;
 import boards.UBoard;
 import bots.BSAI;
 import bots.CBoardAIRecursive;
-import debug.BSIO;
-import debug.Debug;
 
 /**
  *
@@ -234,7 +232,7 @@ public class GameGUI extends JFrame implements ActionListener {
             combo_ship.addItem(ships_to_be_placed.get(i));
         }
 
-        Debug.println("UserPaint: " + userpaint.getLocation() + "; CompPaint " + comppaint.getLocation());
+        BattleshipUtils.println("UserPaint: " + userpaint.getLocation() + "; CompPaint " + comppaint.getLocation());
 
         comppaint.repaint();
         userpaint.repaint();
@@ -308,9 +306,9 @@ public class GameGUI extends JFrame implements ActionListener {
         }
 
         if (e.getActionCommand().equals("Random Coords")) {
-            xcoord.setText(Integer.valueOf(BSIO.getRandomInt(compboard.x_dim)).toString());
-            ycoord.setText(Integer.valueOf(BSIO.getRandomInt(compboard.y_dim)).toString());
-            combo_orientation.setSelectedIndex(BSIO.getRandomInt(2));
+            xcoord.setText(Integer.valueOf(BattleshipUtils.getRandomNextInt(compboard.x_dim)).toString());
+            ycoord.setText(Integer.valueOf(BattleshipUtils.getRandomNextInt(compboard.y_dim)).toString());
+            combo_orientation.setSelectedIndex(BattleshipUtils.getRandomNextInt(2));
         }
 
         if (e.getActionCommand().equals("Double-Edged Sword")) {
@@ -318,7 +316,7 @@ public class GameGUI extends JFrame implements ActionListener {
         }
 
         if (e.getActionCommand().equals("New Game")) {
-            Debug.println("New Game!");
+            BattleshipUtils.println("New Game!");
             newgame();
 
         }
@@ -355,7 +353,7 @@ public class GameGUI extends JFrame implements ActionListener {
         //We will attempt to place a ship at the coordinates as described.
 
         String ship = (String) combo_ship.getSelectedItem();
-        Debug.println("From the combo_ship: the ship is " + ship + " and the index is " + combo_ship.getSelectedIndex() + " of " + combo_ship.getItemCount());
+        BattleshipUtils.println("From the combo_ship: the ship is " + ship + " and the index is " + combo_ship.getSelectedIndex() + " of " + combo_ship.getItemCount());
         int x = getCoords()[0];
         int y = getCoords()[1];
         String orientation = (String) combo_orientation.getSelectedItem();
@@ -363,7 +361,7 @@ public class GameGUI extends JFrame implements ActionListener {
 
         if (ships_to_be_placed.contains(ship) && x != -1 && y != -1)//it is still necessary to place at least one ship of this type.
         {
-            Debug.println("ships_to_be_placed is ok.");
+            BattleshipUtils.println("ships_to_be_placed is ok.");
             if (ship.equals("Battleship")) {
                 shipplaced = userboard.placeship(new Battleship(userboard, x, y, Orientation.getOrientationFromString(orientation)));
             } else if (ship.equals("Cruiser")) {
@@ -477,13 +475,13 @@ public class GameGUI extends JFrame implements ActionListener {
     private void opponentshot() {
         BSCoordinate current = compboard_AI.nextshot();
 
-//        int compshot_x = BSIO.getRandomInt(board_x);
-//        int compshot_y = BSIO.getRandomInt(board_y);
-        Debug.println("Trying to attack ship at: " + current);
+//        int compshot_x = BSIO.getRandomNextInt(board_x);
+//        int compshot_y = BSIO.getRandomNextInt(board_y);
+        BattleshipUtils.println("Trying to attack ship at: " + current);
         int comp_shot_status = userboard.shoot(current);
         while (comp_shot_status != Board.B_MISS && comp_shot_status != Board.B_HIT && comp_shot_status != Board.B_GAMELOST && comp_shot_status != Board.B_HIT_SUNK) {
-//            compshot_x = BSIO.getRandomInt(board_x);
-//            compshot_y = BSIO.getRandomInt(board_y);
+//            compshot_x = BSIO.getRandomNextInt(board_x);
+//            compshot_y = BSIO.getRandomNextInt(board_y);
             current = compboard_AI.nextshot();
             comp_shot_status = userboard.shoot(current);
         }
@@ -540,8 +538,8 @@ public class GameGUI extends JFrame implements ActionListener {
         System.out.println("Double-edged sword on ships " + compcount + "," + usercount);
 
         if (compcount > 0 && usercount > 0) {
-            int compship = BSIO.getRandomInt(compcount);
-            int usership = BSIO.getRandomInt(usercount);
+            int compship = BattleshipUtils.getRandomNextInt(compcount);
+            int usership = BattleshipUtils.getRandomNextInt(usercount);
 
             //Now we will randomly select squares on each ship to shoot.
             int compcount_sq = -1, usercount_sq = -1;
@@ -560,11 +558,11 @@ public class GameGUI extends JFrame implements ActionListener {
                 }
 
             }
-            Debug.println("Random for DES: " + compcount_sq + " " + usercount_sq);
+            BattleshipUtils.println("Random for DES: " + compcount_sq + " " + usercount_sq);
 
             if (compcount_sq > 0 && usercount_sq > 0) {
-                int compshot = BSIO.getRandomInt(compcount_sq);
-                int usershot = BSIO.getRandomInt(usercount_sq);
+                int compshot = BattleshipUtils.getRandomNextInt(compcount_sq);
+                int usershot = BattleshipUtils.getRandomNextInt(usercount_sq);
 
                 //Now we have our squares selected. We need to find the coordinates.
                 int compcounter = -1, usercounter = -1;
@@ -616,12 +614,12 @@ public class GameGUI extends JFrame implements ActionListener {
     }
 
     private void print(String s) {
-        Debug.println(s);
+        BattleshipUtils.println(s);
         statusfield.setText(s);
     }
 
     private void append(String s) {
-        Debug.println("Appending: " + s);
+        BattleshipUtils.println("Appending: " + s);
         String n = statusfield.getText();
         statusfield.setText(n + " " + s);
     }

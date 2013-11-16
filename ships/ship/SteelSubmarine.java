@@ -6,8 +6,8 @@ package ships.ship;
 
 import logic.BSCoordinate;
 import logic.BSSquare;
-import debug.Debug;
 import boards.Board;
+import logic.BattleshipUtils;
 import ships.Orientation;
 import ships.Ship;
 
@@ -84,8 +84,8 @@ public class SteelSubmarine extends Ship
 
             if (isSunk())
             {
-                Debug.print("\n\n----\tAbout to print a ship deemed as sunk.\n"
-                        + this);
+                BattleshipUtils.print("\n\n----\tAbout to print a ship deemed as sunk.\n"
+                + this);
                 // We need to make the ship PRINT as if it's sunk:
                 for (int i = 0; i < drawShip().size(); i++)
                 {

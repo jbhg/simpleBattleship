@@ -10,11 +10,9 @@ import java.util.List;
 import logic.BSCoordinate;
 import logic.BSSquare;
 
-import debug.BSIO;
-import debug.Debug;
-
 import boards.Board;
 
+import logic.BattleshipUtils;
 import ships.ship.Battleship;
 import ships.ship.Carrier;
 import ships.ship.Cruiser;
@@ -77,11 +75,11 @@ public class CBoardAIRecursive implements BSAI {
         clearsunk();
         clearOutOfBounds();
         shots++;
-        Debug.println("\n\n" + shots + "nextshot() called. coordinates_shot = " + coordinates_shot.size() + ", shooting_coordinates = " + shooting_coordinates.size() + ", hit_list = " + hit_list.size() + ", place_ship_coordinates = " + place_ship_coordinates_primary.size());
+        BattleshipUtils.println("\n\n" + shots + "nextshot() called. coordinates_shot = " + coordinates_shot.size() + ", shooting_coordinates = " + shooting_coordinates.size() + ", hit_list = " + hit_list.size() + ", place_ship_coordinates = " + place_ship_coordinates_primary.size());
         BSCoordinate current;
         if (hit_list.size() == 0) {
-            Debug.println("next shot coming from the AI's pool...");
-            current = shooting_coordinates.get(BSIO.getRandomInt(shooting_coordinates.size()));
+            BattleshipUtils.println("next shot coming from the AI's pool...");
+            current = shooting_coordinates.get(BattleshipUtils.getRandomNextInt(shooting_coordinates.size()));
             coordinates_shot.add(current);
             shooting_coordinates.remove(current);
             place_ship_coordinates_primary.clear();
@@ -90,16 +88,16 @@ public class CBoardAIRecursive implements BSAI {
             return current;
         } else {
             if (place_ship_coordinates_primary.size() > 0) {
-                Debug.println("from the primary array");
+                BattleshipUtils.println("from the primary array");
                 dump();
                 return place_ship_coordinates_primary.remove(0);
             } else if (place_ship_coordinates_secondary.size() > 0) {
-                Debug.println("from the secondary array");
+                BattleshipUtils.println("from the secondary array");
                 dump();
                 return place_ship_coordinates_secondary.remove(0);
             } else {
-                Debug.println("next shot coming from the AI's pool...");
-                current = shooting_coordinates.get(BSIO.getRandomInt(shooting_coordinates.size()));
+                BattleshipUtils.println("next shot coming from the AI's pool...");
+                current = shooting_coordinates.get(BattleshipUtils.getRandomNextInt(shooting_coordinates.size()));
                 coordinates_shot.add(current);
                 shooting_coordinates.remove(current);
                 dump();
@@ -116,7 +114,7 @@ public class CBoardAIRecursive implements BSAI {
             }
         }
 
-        Debug.println("clearing out of bounds coordinates: " + temp.size());
+        BattleshipUtils.println("clearing out of bounds coordinates: " + temp.size());
 
         for (int i = 0; i < temp.size(); i++) {
             place_ship_coordinates_primary.remove(temp.get(i));
@@ -135,38 +133,38 @@ public class CBoardAIRecursive implements BSAI {
         board.placeship(new SteelSubmarine(board, 0, 0, Orientation.getRandomOrientation()));
 
         shipplaced = false;
-        shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+        shipplaced = board.placeship(new Carrier(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+            shipplaced = board.placeship(new Carrier(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         }
 
         shipplaced = false;
-        shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+        shipplaced = board.placeship(new Battleship(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
-        }
-
-        shipplaced = false;
-        shipplaced =
-                board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
-        while (!shipplaced) {
-            shipplaced = board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
-
+            shipplaced = board.placeship(new Battleship(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         }
 
         shipplaced = false;
         shipplaced =
-                board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+                board.placeship(new Submarine(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+            shipplaced = board.placeship(new Submarine(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
 
         }
 
         shipplaced = false;
         shipplaced =
-                board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+                board.placeship(new Destroyer(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+            shipplaced = board.placeship(new Destroyer(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
+
+        }
+
+        shipplaced = false;
+        shipplaced =
+                board.placeship(new Cruiser(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
+        while (!shipplaced) {
+            shipplaced = board.placeship(new Cruiser(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         }
 
         board.setExplosive(nextshot());
@@ -227,7 +225,7 @@ public class CBoardAIRecursive implements BSAI {
 
         for (int i = 0; i < hit_list.size(); i++) {
             if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.Status.SUNK) {
-                Debug.print("Removing: " + hit_list.get(i));
+                BattleshipUtils.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;
             }
@@ -237,7 +235,7 @@ public class CBoardAIRecursive implements BSAI {
         sunkCounter++;
 
 
-        Debug.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
+        BattleshipUtils.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
 
         if (hit_list.size() == 0) {
             place_ship_coordinates_primary.clear();
@@ -250,13 +248,13 @@ public class CBoardAIRecursive implements BSAI {
 
         for (int i = 0; i < hit_list.size(); i++) {
             if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.Status.SUNK) {
-                Debug.print("Removing: " + hit_list.get(i));
+                BattleshipUtils.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;
             }
         }
 
-        Debug.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
+        BattleshipUtils.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
 
         if (hit_list.size() == 0) {
             place_ship_coordinates_primary.clear();
@@ -272,13 +270,13 @@ public class CBoardAIRecursive implements BSAI {
 
 
     private void dump() {
-        Debug.println("-DUMP");
-        Debug.println("coordinates_shot: " + coordinates_shot);
-        Debug.println("hit_list: " + hit_list);
-        Debug.println("place_ship_coordinates_primary: " + place_ship_coordinates_primary);
-        Debug.println("place_ship_coordinates_secondary: " + place_ship_coordinates_secondary);
-        Debug.println("shooting_coordinates: " + shooting_coordinates);
-        Debug.println("----");
+        BattleshipUtils.println("-DUMP");
+        BattleshipUtils.println("coordinates_shot: " + coordinates_shot);
+        BattleshipUtils.println("hit_list: " + hit_list);
+        BattleshipUtils.println("place_ship_coordinates_primary: " + place_ship_coordinates_primary);
+        BattleshipUtils.println("place_ship_coordinates_secondary: " + place_ship_coordinates_secondary);
+        BattleshipUtils.println("shooting_coordinates: " + shooting_coordinates);
+        BattleshipUtils.println("----");
     }
 
 	@Override

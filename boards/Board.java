@@ -10,9 +10,10 @@ import java.util.List;
 
 import logic.BSCoordinate;
 import logic.BSSquare;
+import logic.BattleshipUtils;
+import logic.Configuration;
 import ships.Orientation;
 import ships.Ship;
-import debug.Debug;
 
 /**
  *
@@ -27,7 +28,7 @@ public abstract class Board {
         x_dim = x_length;
         y_dim = y_length;
         board_ships = new ArrayList<Ship>();
-        displayUndercoverShips = displayAll || Debug.DEBUG;
+        displayUndercoverShips = displayAll || Configuration.Runmode.DEBUG.equals(Configuration.runmode);
         board_squares = new HashMap<BSCoordinate, BSSquare>();
         this.name = name;
         initialize();
@@ -126,12 +127,12 @@ public abstract class Board {
      */
     public boolean placeship(Ship s) {
 
-        Debug.print(s);
+        BattleshipUtils.print(s);
         //Let's break ths thing down.
 
         //First, we need to "kick out" any unfair board_ships. A ship doesn't do a good job of this, because (as seen in the AP Computer Science curriculum) infinite coordinates should be allowed.
         if (s.get_X_start() < 0 || s.get_X_end() >= x_dim || s.get_Y_start() < 0 || s.get_Y_end() >= y_dim || gameInProgress) {
-            Debug.println("FALSE -- ship appears to be out of bounds:" + s.get_X_start() + "," + s.get_Y_start() + " to " + s.get_X_end() + "," + s.get_Y_end() + "...board coords: " + x_dim + "," + y_dim + "...gameinprogress = " + gameInProgress);
+            BattleshipUtils.println("FALSE -- ship appears to be out of bounds:" + s.get_X_start() + "," + s.get_Y_start() + " to " + s.get_X_end() + "," + s.get_Y_end() + "...board coords: " + x_dim + "," + y_dim + "...gameinprogress = " + gameInProgress);
             return false;
 
         } else {
@@ -158,7 +159,7 @@ public abstract class Board {
     }
 
     public int shoot(BSCoordinate c) {
-        Debug.print("Shoot method called. Coords = " + c);
+        BattleshipUtils.print("Shoot method called. Coords = " + c);
         return shoot(c.x(), c.y());
     }
 
@@ -231,7 +232,7 @@ public abstract class Board {
                 return false;
             }
         }
-        Debug.println("--\tGAME OVER\t--");
+        BattleshipUtils.println("--\tGAME OVER\t--");
         return true;
     }
 

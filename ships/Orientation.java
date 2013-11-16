@@ -1,6 +1,6 @@
 package ships;
 
-import debug.BSIO;
+import logic.BattleshipUtils;
 
 public enum Orientation
 {
@@ -8,7 +8,7 @@ public enum Orientation
 
     public static Orientation getRandomOrientation()
     {
-        return BSIO.getRandomInt(2) % 2 == 0 ? HORIZONTAL : VERTICAL;
+        return BattleshipUtils.getRandomNextInt(2) % 2 == 0 ? HORIZONTAL : VERTICAL;
     }
 
     /**

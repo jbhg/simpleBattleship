@@ -27,7 +27,7 @@ import java.util.List;
 import logic.BSCoordinate;
 import logic.BSSquare;
 import boards.Board;
-import debug.Debug;
+import logic.BattleshipUtils;
 
 /**
  * An abstract implementation of the IShip interface.
@@ -166,7 +166,7 @@ public abstract class Ship implements IShip
     @Override
     public boolean isSunk()
     {
-        Debug.print("isSunk? Hits remaining: " + hitsRemaining());
+        BattleshipUtils.print("isSunk? Hits remaining: " + hitsRemaining());
         for (BSSquare s : getSquares())
         {
             if (s.status() != BSSquare.Status.HIT && s.status() != BSSquare.Status.SUNK)
@@ -192,8 +192,8 @@ public abstract class Ship implements IShip
 
         if (isSunk())
         {
-            Debug.print("\n\n----\tAbout to print a ship deemed as sunk.\n"
-                    + this);
+            BattleshipUtils.print("\n\n----\tAbout to print a ship deemed as sunk.\n"
+            + this);
             // We need to make the ship PRINT as if it's sunk:
             for (int i = 0; i < drawShip().size(); i++)
             {

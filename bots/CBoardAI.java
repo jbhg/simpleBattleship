@@ -10,11 +10,9 @@ import java.util.List;
 import logic.BSCoordinate;
 import logic.BSSquare;
 
-import debug.BSIO;
-import debug.Debug;
-
 import boards.Board;
 
+import logic.BattleshipUtils;
 import ships.ship.Battleship;
 import ships.ship.Carrier;
 import ships.ship.Cruiser;
@@ -73,11 +71,11 @@ public class CBoardAI  implements BSAI {
         clearsunk();
         clearOutOfBounds();
         shots++;
-        Debug.println("\n\n" + shots + "nextshot() called. coordinates_shot = " + coordinates_shot.size() + ", shooting_coordinates = " + shooting_coordinates.size() + ", hit_list = " + hit_list.size() + ", place_ship_coordinates = " + place_ship_coordinates.size());
+        BattleshipUtils.println("\n\n" + shots + "nextshot() called. coordinates_shot = " + coordinates_shot.size() + ", shooting_coordinates = " + shooting_coordinates.size() + ", hit_list = " + hit_list.size() + ", place_ship_coordinates = " + place_ship_coordinates.size());
         BSCoordinate current;
         if (hit_list.size() == 0) {
-            Debug.println("next shot coming from the AI...");
-            current = shooting_coordinates.get(BSIO.getRandomInt(shooting_coordinates.size()));
+            BattleshipUtils.println("next shot coming from the AI...");
+            current = shooting_coordinates.get(BattleshipUtils.getRandomNextInt(shooting_coordinates.size()));
             coordinates_shot.add(current);
             shooting_coordinates.remove(current);
             return current;
@@ -94,14 +92,14 @@ public class CBoardAI  implements BSAI {
     }
 
     private BSCoordinate nextShot_onehit() {
-        Debug.println("Case 1 in the AI");
+        BattleshipUtils.println("Case 1 in the AI");
         BSCoordinate current;
         if (place_ship_coordinates.size() != 0) {
-            current = place_ship_coordinates.get(BSIO.getRandomInt(place_ship_coordinates.size()));
+            current = place_ship_coordinates.get(BattleshipUtils.getRandomNextInt(place_ship_coordinates.size()));
             coordinates_shot.add(current);
             place_ship_coordinates.remove(current);
         } else { //resume shooting randomly...
-            current = shooting_coordinates.get(BSIO.getRandomInt(shooting_coordinates.size()));
+            current = shooting_coordinates.get(BattleshipUtils.getRandomNextInt(shooting_coordinates.size()));
             coordinates_shot.add(current);
             shooting_coordinates.remove(current);
         }
@@ -109,14 +107,14 @@ public class CBoardAI  implements BSAI {
     }
 
     private BSCoordinate nextShot_twohits(BSCoordinate hit1, BSCoordinate hit2) {
-        Debug.println("Case 2 in the AI");
+        BattleshipUtils.println("Case 2 in the AI");
         BSCoordinate current;
         if (orientation(hit1, hit2) == ORIENTATION_X_NEIGHBORS) {
-            Debug.println("\tx neighbors");
+            BattleshipUtils.println("\tx neighbors");
             BSCoordinate left = new BSCoordinate(Math.max(hit1.x(), hit2.x()) + 1, hit1.y());
             BSCoordinate right = new BSCoordinate(Math.min(hit1.x(), hit2.x()) - 1, hit1.y());
             if (place_ship_coordinates.contains(left) && place_ship_coordinates.contains(right)) { //both right and left exist
-                if (BSIO.getRandomInt(2) == 0) { //...so pick one randomly
+                if (BattleshipUtils.getRandomNextInt(2) == 0) { //...so pick one randomly
                     current = left;
                     coordinates_shot.add(0, left);
                     place_ship_coordinates.remove(left);
@@ -137,17 +135,17 @@ public class CBoardAI  implements BSAI {
             {
                 dump();
 
-                Debug.println("NULL 1: " + hit1 + hit2 + orientation(hit1, hit2));
+                BattleshipUtils.println("NULL 1: " + hit1 + hit2 + orientation(hit1, hit2));
                 current = null;
             }
         } else if (orientation(hit1, hit2) == ORIENTATION_Y_NEIGHBORS) {
-            Debug.println("\ty neighbors");
+            BattleshipUtils.println("\ty neighbors");
 
             BSCoordinate below = new BSCoordinate(hit1.x(), Math.max(hit1.y(), hit2.y()) + 1);
             BSCoordinate above = new BSCoordinate(hit1.x(), Math.min(hit1.y(), hit2.y()) - 1);
 
             if (place_ship_coordinates.contains(below) && place_ship_coordinates.contains(above)) { //both right and left exist
-                if (BSIO.getRandomInt(2) == 0) { //...so pick one randomly
+                if (BattleshipUtils.getRandomNextInt(2) == 0) { //...so pick one randomly
                     current = below;
                     coordinates_shot.add(below);
                     place_ship_coordinates.remove(below);
@@ -168,14 +166,14 @@ public class CBoardAI  implements BSAI {
             {
                 dump();
 
-                Debug.println("NULL 2: " + hit1 + hit2 + orientation(hit1, hit2));
+                BattleshipUtils.println("NULL 2: " + hit1 + hit2 + orientation(hit1, hit2));
 
                 current = null;
             }
         } else {
-            Debug.println("\tnot neighbors: " + hit1 + " " + hit2);
+            BattleshipUtils.println("\tnot neighbors: " + hit1 + " " + hit2);
 
-            current = place_ship_coordinates.get(BSIO.getRandomInt(place_ship_coordinates.size()));
+            current = place_ship_coordinates.get(BattleshipUtils.getRandomNextInt(place_ship_coordinates.size()));
             coordinates_shot.add(current);
             place_ship_coordinates.remove(current);
         }
@@ -183,14 +181,14 @@ public class CBoardAI  implements BSAI {
     }
 
     private BSCoordinate nextShot_multiplehits(BSCoordinate hit1, BSCoordinate hit2) {
-        Debug.println("Case MULTIPLE in the AI");
+        BattleshipUtils.println("Case MULTIPLE in the AI");
         BSCoordinate current;
         if (orientation(hit1, hit2) == ORIENTATION_X_COLINEAR || orientation(hit1, hit2) == ORIENTATION_X_NEIGHBORS) {
-            Debug.println("\tx neighbors");
+            BattleshipUtils.println("\tx neighbors");
             BSCoordinate left = new BSCoordinate(Math.max(hit1.x(), hit2.x()) + 1, hit1.y());
             BSCoordinate right = new BSCoordinate(Math.min(hit1.x(), hit2.x()) - 1, hit1.y());
             if (place_ship_coordinates.contains(left) && place_ship_coordinates.contains(right)) { //both right and left exist
-                if (BSIO.getRandomInt(2) == 0) { //...so pick one randomly
+                if (BattleshipUtils.getRandomNextInt(2) == 0) { //...so pick one randomly
                     current = left;
                     coordinates_shot.add(left);
                     place_ship_coordinates.remove(left);
@@ -211,17 +209,17 @@ public class CBoardAI  implements BSAI {
             {
                 dump();
 
-                Debug.println("NULL 3: " + hit1 + hit2 + orientation(hit1, hit2));
+                BattleshipUtils.println("NULL 3: " + hit1 + hit2 + orientation(hit1, hit2));
                 current = null;
             }
         } else if (orientation(hit1, hit2) == ORIENTATION_Y_COLINEAR || orientation(hit1, hit2) == ORIENTATION_Y_NEIGHBORS) {
-            Debug.println("\ty neighbors");
+            BattleshipUtils.println("\ty neighbors");
 
             BSCoordinate below = new BSCoordinate(hit1.x(), Math.max(hit1.y(), hit2.y()) + 1);
             BSCoordinate above = new BSCoordinate(hit1.x(), Math.min(hit1.y(), hit2.y()) - 1);
 
             if (place_ship_coordinates.contains(below) && place_ship_coordinates.contains(above)) { //both right and left exist
-                if (BSIO.getRandomInt(2) == 0) { //...so pick one randomly
+                if (BattleshipUtils.getRandomNextInt(2) == 0) { //...so pick one randomly
                     current = below;
                     coordinates_shot.add(below);
                     place_ship_coordinates.remove(below);
@@ -241,12 +239,12 @@ public class CBoardAI  implements BSAI {
             } else //an apparent dead-end...
             {
                 dump();
-                Debug.println("NULL 4" + hit1 + hit2 + orientation(hit1, hit2));
+                BattleshipUtils.println("NULL 4" + hit1 + hit2 + orientation(hit1, hit2));
                 current = null;
             }
         } else {
-            Debug.println("\tnot neighbors: " + hit1 + " " + hit2 + " " + orientation(hit1, hit2));
-            current = place_ship_coordinates.get(BSIO.getRandomInt(place_ship_coordinates.size()));
+            BattleshipUtils.println("\tnot neighbors: " + hit1 + " " + hit2 + " " + orientation(hit1, hit2));
+            current = place_ship_coordinates.get(BattleshipUtils.getRandomNextInt(place_ship_coordinates.size()));
             coordinates_shot.add(current);
             place_ship_coordinates.remove(current);
         }
@@ -261,7 +259,7 @@ public class CBoardAI  implements BSAI {
             }
         }
 
-        Debug.println("clearing out of bounds coordinates: " + temp.size());
+        BattleshipUtils.println("clearing out of bounds coordinates: " + temp.size());
 
         for (int i = 0; i < temp.size(); i++) {
             place_ship_coordinates.remove(temp.get(i));
@@ -280,38 +278,38 @@ public class CBoardAI  implements BSAI {
         board.placeship(new SteelSubmarine(board, 0, 0, Orientation.getRandomOrientation()));
 
         shipplaced = false;
-        shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+        shipplaced = board.placeship(new Carrier(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Carrier(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+            shipplaced = board.placeship(new Carrier(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         }
 
         shipplaced = false;
-        shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+        shipplaced = board.placeship(new Battleship(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Battleship(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
-        }
-
-        shipplaced = false;
-        shipplaced =
-                board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
-        while (!shipplaced) {
-            shipplaced = board.placeship(new Submarine(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
-
+            shipplaced = board.placeship(new Battleship(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         }
 
         shipplaced = false;
         shipplaced =
-                board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+                board.placeship(new Submarine(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Destroyer(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+            shipplaced = board.placeship(new Submarine(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
 
         }
 
         shipplaced = false;
         shipplaced =
-                board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+                board.placeship(new Destroyer(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         while (!shipplaced) {
-            shipplaced = board.placeship(new Cruiser(board, BSIO.getRandomInt(board.x_dim), BSIO.getRandomInt(board.y_dim), Orientation.getRandomOrientation()));
+            shipplaced = board.placeship(new Destroyer(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
+
+        }
+
+        shipplaced = false;
+        shipplaced =
+                board.placeship(new Cruiser(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
+        while (!shipplaced) {
+            shipplaced = board.placeship(new Cruiser(board, BattleshipUtils.getRandomNextInt(board.x_dim), BattleshipUtils.getRandomNextInt(board.y_dim), Orientation.getRandomOrientation()));
         }
 
 
@@ -335,7 +333,7 @@ public class CBoardAI  implements BSAI {
 
         for (int i = 0; i < hit_list.size(); i++) {
             if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.Status.SUNK) {
-                Debug.print("Removing: " + hit_list.get(i));
+                BattleshipUtils.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;
             }
@@ -345,7 +343,7 @@ public class CBoardAI  implements BSAI {
         sunkCounter++;
 
 
-        Debug.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
+        BattleshipUtils.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
 
         if (hit_list.size() == 0) {
             place_ship_coordinates.clear();
@@ -358,13 +356,13 @@ public class CBoardAI  implements BSAI {
 
         for (int i = 0; i < hit_list.size(); i++) {
             if (oppboard.getBoardSquares().get(hit_list.get(i)).status() == BSSquare.Status.SUNK) {
-                Debug.print("Removing: " + hit_list.get(i));
+                BattleshipUtils.print("Removing: " + hit_list.get(i));
                 hit_list.remove(i);
                 sunkCounter++;
             }
         }
 
-        Debug.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
+        BattleshipUtils.println("sunkcounter: " + sunkCounter + ", hitlist: " + hit_list);
 
         if (hit_list.size() == 0) {
             place_ship_coordinates.clear();
@@ -388,10 +386,10 @@ public class CBoardAI  implements BSAI {
     }
 
     private void dump() {
-        Debug.println("coordinates_shot: " + coordinates_shot);
-        Debug.println("hit_list: " + hit_list);
-        Debug.println("place_ship_coordinates: " + place_ship_coordinates);
-        Debug.println("shooting_coordinates: " + shooting_coordinates);
+        BattleshipUtils.println("coordinates_shot: " + coordinates_shot);
+        BattleshipUtils.println("hit_list: " + hit_list);
+        BattleshipUtils.println("place_ship_coordinates: " + place_ship_coordinates);
+        BattleshipUtils.println("shooting_coordinates: " + shooting_coordinates);
 
     }
 

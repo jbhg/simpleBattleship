@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -25,6 +26,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import logic.BSCoordinate;
 import logic.BSSquare;
 import ships.ship.Battleship;
@@ -49,7 +53,7 @@ import debug.Debug;
 public class GameGUI extends JFrame implements ActionListener {
 
     //Establish global constants.
-    public static final String[] shipnames = {"Carrier", "Battleship", "Cruiser", "Destroyer", "Submarine", "SteelSubmarine"};
+    private static List<String> shipnames = ImmutableList.of("Carrier", "Battleship", "Cruiser", "Destroyer", "Submarine", "SteelSubmarine");
     public static final int board_x = 15;
     public static final int board_y = 20;
     //Establish the "standard" variables for this game.
@@ -90,8 +94,8 @@ public class GameGUI extends JFrame implements ActionListener {
         across.setEditable(false);
         down.setEditable(false);
         ships_to_be_placed = new ArrayList<String>();
-        for (int i = 0; i < shipnames.length; i++) {
-            ships_to_be_placed.add(shipnames[i]);
+        for (int i = 0; i < getShipnames().length; i++) {
+            ships_to_be_placed.add(getShipnames()[i]);
         }
 
         //Establish the content pane. Name it 'content'
@@ -198,6 +202,11 @@ public class GameGUI extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    public static String[] getShipnames()
+    {
+        return Iterables.toArray(shipnames, String.class);
+    }
+
     public synchronized void newgame() {
         combo_ship.setEditable(false);
         combo_orientation.setEditable(false);
@@ -214,8 +223,8 @@ public class GameGUI extends JFrame implements ActionListener {
         //Clear the user board and prepare it for re-deployment.
         userboard.initialize();
         ships_to_be_placed.clear();
-        for (int i = 0; i < shipnames.length; i++) {
-            ships_to_be_placed.add(shipnames[i]);
+        for (int i = 0; i < getShipnames().length; i++) {
+            ships_to_be_placed.add(getShipnames()[i]);
         }
 
         combo_ship.removeAllItems();

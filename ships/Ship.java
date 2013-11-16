@@ -30,14 +30,15 @@ import boards.Board;
 import debug.Debug;
 
 /**
- * 
- * @author joelgreenberg
+ * An abstract implementation of the IShip interface.
  */
 public abstract class Ship implements IShip
 {
     protected Orientation         orientation;
     protected BSCoordinate        startCoord;
+    @Deprecated
     protected List<BSSquare> squares;
+    protected List<BSCoordinate> allCoordinates = new ArrayList<BSCoordinate>();
     protected Board               GPSboard;
 
     public Ship(Board board, BSCoordinate startCoord, Orientation orientation)

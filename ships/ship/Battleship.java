@@ -1,19 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package ships;
+package ships.ship;
 
 import logic.BSCoordinate;
 import boards.Board;
+import ships.Orientation;
+import ships.Ship;
 
 /**
  * 
  * @author joelgreenberg
  */
-public class Cruiser extends Ship
+public class Battleship extends Ship
 {
-    public Cruiser(Board board, int x_start, int y_start,
+    public Battleship(Board board, int x_start, int y_start,
             Orientation orientation)
     {
         super(board, new BSCoordinate(x_start, y_start), orientation);
@@ -22,12 +20,12 @@ public class Cruiser extends Ship
     @Override
     public String getName()
     {
-        return "Cruiser";
+        return "Battleship";
     }
-
+    
     @Override
     public int getLength()
     {
-        return 3;
+        return 4;
     }
 }

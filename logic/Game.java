@@ -13,9 +13,9 @@ import debug.Debug;
 import boards.Board;
 import boards.CBoard;
 import boards.UBoard;
-import ships.Battleship;
+import ships.ship.Battleship;
 import ships.Orientation;
-import ships.Submarine;
+import ships.ship.Submarine;
 
 /**
  *

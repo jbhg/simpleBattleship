@@ -15,14 +15,14 @@ import debug.Debug;
 
 import boards.Board;
 
-import ships.Battleship;
-import ships.Carrier;
-import ships.Cruiser;
-import ships.Destroyer;
+import ships.ship.Battleship;
+import ships.ship.Carrier;
+import ships.ship.Cruiser;
+import ships.ship.Destroyer;
 import ships.Orientation;
 import ships.Ship;
-import ships.SteelSubmarine;
-import ships.Submarine;
+import ships.ship.SteelSubmarine;
+import ships.ship.Submarine;
 
 /**
  *

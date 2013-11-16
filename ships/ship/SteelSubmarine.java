@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ships;
+package ships.ship;
 
 import logic.BSCoordinate;
 import logic.BSSquare;
 import debug.Debug;
 import boards.Board;
+import ships.Orientation;
+import ships.Ship;
 
 /**
  * 

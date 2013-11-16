@@ -4,35 +4,33 @@
  */
 package debug;
 
+import logic.Configuration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  *
  * @author joelgreenberg
  */
 public class Debug {
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = (Configuration.Runmode.DEBUG.equals(Configuration.runmode));
 
+    @Deprecated
     public static void print(String s) {
-        if (DEBUG) {
-            System.out.print(s);
-        }
+        Configuration.logger.debug(s);
     }
 
     public static void println(String s) {
-        if (DEBUG) {
-            System.out.println(s);
-        }
+        Configuration.logger.debug(s);
     }
 
-        public static void print(Object s) {
-        if (DEBUG) {
-            System.out.print(s);
-        }
+    @Deprecated
+    public static void print(Object s) {
+        Configuration.logger.debug(s);
     }
 
     public static void println(Object s) {
-        if (DEBUG) {
-            System.out.println(s);
-        }
+        Configuration.logger.debug(s);
     }
 }

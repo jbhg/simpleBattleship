@@ -19,15 +19,11 @@ import boards.Board;
  *
  * @author joelgreenberg
  */
-public class BoardPainter extends javax.swing.JComponent implements java.awt.event.MouseListener {
-
+public class BoardPainter extends javax.swing.JComponent implements java.awt.event.MouseListener
+{
     private Board board;
     private GameGUI game;
     private int print_dimension;
-
-    public int getPrint_dimension() {
-        return print_dimension;
-    }
 
     public BoardPainter(Board b, GameGUI g) {
         super();
@@ -92,6 +88,7 @@ public class BoardPainter extends javax.swing.JComponent implements java.awt.eve
         return board;
     }
 
+    @Deprecated
     public static Color squareColor(BSSquare.Status status) {
         return status.getColor();
     }
